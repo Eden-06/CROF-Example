@@ -13,6 +13,11 @@ public interface Account{
 	void increase(double amount);
 	void decrease(double amount);
 	
+	boolean hasBankCheckingAccount(Bank bank);
+	Bank.CheckingAccount getBankCheckingAccount(Bank bank);
+	List<Bank.CheckingAccount> getBankCheckingAccounts();
+	boolean addBankCheckingAccount(Bank.CheckingAccount checkingAccount);
+	boolean removeBankCheckingAccount(Bank bank);
 	boolean hasTransactionTarget(Transaction transaction);
 	Transaction.Target getTransactionTarget(Transaction transaction);
 	List<Transaction.Target> getTransactionTargets();
@@ -28,11 +33,6 @@ public interface Account{
 	List<Transaction.Source> getTransactionSources();
 	boolean addTransactionSource(Transaction.Source source);
 	boolean removeTransactionSource(Transaction transaction);
-	boolean hasBankCheckingAccount(Bank bank);
-	Bank.CheckingAccount getBankCheckingAccount(Bank bank);
-	List<Bank.CheckingAccount> getBankCheckingAccounts();
-	boolean addBankCheckingAccount(Bank.CheckingAccount checkingAccount);
-	boolean removeBankCheckingAccount(Bank bank);
 	
 	Account getCompoundObject();
 	boolean isSame(Object object);

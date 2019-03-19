@@ -7,9 +7,11 @@ import bank.*;
 public class Test {
 
 	public static void main(String[] args) {
-
 		Factory factory=Factory.INSTANCE;
+
 		Model model=factory.createModel();
+
+
 		//Bank
 		Bank bank=model.createBank();
 		bank.setName("DB");

@@ -15,13 +15,13 @@ public class CompanyImpl implements Company{
 	}
 
 	@Override
-	public String getPOBox(){
-		return this.state.POBox;
+	public String getAddresses(){
+		return this.state.addresses;
 	}
 	
 	@Override
-	public void setPOBox(String POBox){
-		this.state.POBox = POBox;
+	public void setAddresses(String addresses){
+		this.state.addresses = addresses;
 	}
 	@Override
 	public String getName(){
@@ -33,15 +33,6 @@ public class CompanyImpl implements Company{
 		this.state.name = name;
 	}
 	@Override
-	public String getAddresses(){
-		return this.state.addresses;
-	}
-	
-	@Override
-	public void setAddresses(String addresses){
-		this.state.addresses = addresses;
-	}
-	@Override
 	public String getLegalForm(){
 		return this.state.legalForm;
 	}
@@ -49,6 +40,15 @@ public class CompanyImpl implements Company{
 	@Override
 	public void setLegalForm(String legalForm){
 		this.state.legalForm = legalForm;
+	}
+	@Override
+	public String getPOBox(){
+		return this.state.POBox;
+	}
+	
+	@Override
+	public void setPOBox(String POBox){
+		this.state.POBox = POBox;
 	}
 	
 	

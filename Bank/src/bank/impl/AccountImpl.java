@@ -58,6 +58,45 @@ public class AccountImpl implements Account{
 	}
 	
 	@Override
+	public boolean hasBankCheckingAccount(Bank bank){
+		for(int i=0;i<state.bankCheckingAccounts.size();i++){
+			if(state.bankCheckingAccounts.get(i).getOwner().equals(bank)){
+				return true;
+			}
+		}
+		return false;
+	}
+	@Override
+	public Bank.CheckingAccount getBankCheckingAccount(Bank bank){
+		for(int i=0;i<state.bankCheckingAccounts.size();i++){
+			if(state.bankCheckingAccounts.get(i).getOwner().equals(bank)){
+				return this.state.bankCheckingAccounts.get(i);
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public List<Bank.CheckingAccount> getBankCheckingAccounts(){
+		return Collections.unmodifiableList(this.state.bankCheckingAccounts);
+	}
+	@Override
+	public boolean addBankCheckingAccount(Bank.CheckingAccount checkingAccount) {
+		if(state.bankCheckingAccounts.contains(checkingAccount))
+				return false;
+			return this.state.bankCheckingAccounts.add(checkingAccount);
+	}
+	@Override
+	public boolean removeBankCheckingAccount(Bank bank){
+		for(int i=0;i<state.bankCheckingAccounts.size();i++) {
+				if(state.bankCheckingAccounts.get(i).getOwner().equals(bank)) {
+					this.state.bankCheckingAccounts.remove(i);
+					return true;
+				}
+			}
+			return false;
+	}
+	@Override
 	public boolean hasTransactionTarget(Transaction transaction){
 		for(int i=0;i<state.transactionTargets.size();i++){
 			if(state.transactionTargets.get(i).getOwner().equals(transaction)){
@@ -169,45 +208,6 @@ public class AccountImpl implements Account{
 		for(int i=0;i<state.transactionSources.size();i++) {
 				if(state.transactionSources.get(i).getOwner().equals(transaction)) {
 					this.state.transactionSources.remove(i);
-					return true;
-				}
-			}
-			return false;
-	}
-	@Override
-	public boolean hasBankCheckingAccount(Bank bank){
-		for(int i=0;i<state.bankCheckingAccounts.size();i++){
-			if(state.bankCheckingAccounts.get(i).getOwner().equals(bank)){
-				return true;
-			}
-		}
-		return false;
-	}
-	@Override
-	public Bank.CheckingAccount getBankCheckingAccount(Bank bank){
-		for(int i=0;i<state.bankCheckingAccounts.size();i++){
-			if(state.bankCheckingAccounts.get(i).getOwner().equals(bank)){
-				return this.state.bankCheckingAccounts.get(i);
-			}
-		}
-		return null;
-	}
-	
-	@Override
-	public List<Bank.CheckingAccount> getBankCheckingAccounts(){
-		return Collections.unmodifiableList(this.state.bankCheckingAccounts);
-	}
-	@Override
-	public boolean addBankCheckingAccount(Bank.CheckingAccount checkingAccount) {
-		if(state.bankCheckingAccounts.contains(checkingAccount))
-				return false;
-			return this.state.bankCheckingAccounts.add(checkingAccount);
-	}
-	@Override
-	public boolean removeBankCheckingAccount(Bank bank){
-		for(int i=0;i<state.bankCheckingAccounts.size();i++) {
-				if(state.bankCheckingAccounts.get(i).getOwner().equals(bank)) {
-					this.state.bankCheckingAccounts.remove(i);
 					return true;
 				}
 			}

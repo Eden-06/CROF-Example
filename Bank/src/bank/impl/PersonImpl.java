@@ -15,15 +15,6 @@ public class PersonImpl implements Person{
 	}
 
 	@Override
-	public String getAddress(){
-		return this.state.address;
-	}
-	
-	@Override
-	public void setAddress(String address){
-		this.state.address = address;
-	}
-	@Override
 	public String getTitle(){
 		return this.state.title;
 	}
@@ -31,6 +22,15 @@ public class PersonImpl implements Person{
 	@Override
 	public void setTitle(String title){
 		this.state.title = title;
+	}
+	@Override
+	public String getFirstName(){
+		return this.state.firstName;
+	}
+	
+	@Override
+	public void setFirstName(String firstName){
+		this.state.firstName = firstName;
 	}
 	@Override
 	public String getLastName(){
@@ -42,13 +42,13 @@ public class PersonImpl implements Person{
 		this.state.lastName = lastName;
 	}
 	@Override
-	public String getFirstName(){
-		return this.state.firstName;
+	public String getAddress(){
+		return this.state.address;
 	}
 	
 	@Override
-	public void setFirstName(String firstName){
-		this.state.firstName = firstName;
+	public void setAddress(String address){
+		this.state.address = address;
 	}
 	
 	

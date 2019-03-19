@@ -23,14 +23,6 @@ public class CrofBank{
 	public List<CrofMoneyTransfer> getCrofMoneyTransfers(){
 		return crofMoneyTransfers;
 	}
-	List<CrofSavingsAccount> crofSavingsAccounts=new ArrayList<CrofSavingsAccount>();
-	
-	public void setCrofSavingsAccounts(List<CrofSavingsAccount> crofSavingsAccounts){
-		this.crofSavingsAccounts=crofSavingsAccounts;
-	}
-	public List<CrofSavingsAccount> getCrofSavingsAccounts(){
-		return crofSavingsAccounts;
-	}
 	List<CrofConsultant> crofConsultants=new ArrayList<CrofConsultant>();
 	
 	public void setCrofConsultants(List<CrofConsultant> crofConsultants){
@@ -38,6 +30,14 @@ public class CrofBank{
 	}
 	public List<CrofConsultant> getCrofConsultants(){
 		return crofConsultants;
+	}
+	List<CrofCheckingAccount> crofCheckingAccounts=new ArrayList<CrofCheckingAccount>();
+	
+	public void setCrofCheckingAccounts(List<CrofCheckingAccount> crofCheckingAccounts){
+		this.crofCheckingAccounts=crofCheckingAccounts;
+	}
+	public List<CrofCheckingAccount> getCrofCheckingAccounts(){
+		return crofCheckingAccounts;
 	}
 	List<CrofCustomer> crofCustomers=new ArrayList<CrofCustomer>();
 	
@@ -47,13 +47,13 @@ public class CrofBank{
 	public List<CrofCustomer> getCrofCustomers(){
 		return crofCustomers;
 	}
-	List<CrofCheckingAccount> crofCheckingAccounts=new ArrayList<CrofCheckingAccount>();
+	List<CrofSavingsAccount> crofSavingsAccounts=new ArrayList<CrofSavingsAccount>();
 	
-	public void setCrofCheckingAccounts(List<CrofCheckingAccount> crofCheckingAccounts){
-		this.crofCheckingAccounts=crofCheckingAccounts;
+	public void setCrofSavingsAccounts(List<CrofSavingsAccount> crofSavingsAccounts){
+		this.crofSavingsAccounts=crofSavingsAccounts;
 	}
-	public List<CrofCheckingAccount> getCrofCheckingAccounts(){
-		return crofCheckingAccounts;
+	public List<CrofSavingsAccount> getCrofSavingsAccounts(){
+		return crofSavingsAccounts;
 	}
 	 
 	List<CrofTransactionMoneyTransfer> crofTransactionMoneyTransfers=new ArrayList<CrofTransactionMoneyTransfer>();
@@ -64,14 +64,6 @@ public class CrofBank{
 	public List<CrofTransactionMoneyTransfer> getCrofTransactionMoneyTransfers(){
 		return crofTransactionMoneyTransfers;
 	}
-	List<CrofAccountSavingsAccount> crofAccountSavingsAccounts=new ArrayList<CrofAccountSavingsAccount>();
-	
-	public void setCrofAccountSavingsAccounts(List<CrofAccountSavingsAccount> crofAccountSavingsAccounts){
-		this.crofAccountSavingsAccounts=crofAccountSavingsAccounts;
-	}
-	public List<CrofAccountSavingsAccount> getCrofAccountSavingsAccounts(){
-		return crofAccountSavingsAccounts;
-	}
 	List<CrofPersonConsultant> crofPersonConsultants=new ArrayList<CrofPersonConsultant>();
 	
 	public void setCrofPersonConsultants(List<CrofPersonConsultant> crofPersonConsultants){
@@ -79,6 +71,14 @@ public class CrofBank{
 	}
 	public List<CrofPersonConsultant> getCrofPersonConsultants(){
 		return crofPersonConsultants;
+	}
+	List<CrofAccountCheckingAccount> crofAccountCheckingAccounts=new ArrayList<CrofAccountCheckingAccount>();
+	
+	public void setCrofAccountCheckingAccounts(List<CrofAccountCheckingAccount> crofAccountCheckingAccounts){
+		this.crofAccountCheckingAccounts=crofAccountCheckingAccounts;
+	}
+	public List<CrofAccountCheckingAccount> getCrofAccountCheckingAccounts(){
+		return crofAccountCheckingAccounts;
 	}
 	List<CrofPersonCustomer> crofPersonCustomers=new ArrayList<CrofPersonCustomer>();
 	
@@ -96,13 +96,13 @@ public class CrofBank{
 	public List<CrofCompanyCustomer> getCrofCompanyCustomers(){
 		return crofCompanyCustomers;
 	}
-	List<CrofAccountCheckingAccount> crofAccountCheckingAccounts=new ArrayList<CrofAccountCheckingAccount>();
+	List<CrofAccountSavingsAccount> crofAccountSavingsAccounts=new ArrayList<CrofAccountSavingsAccount>();
 	
-	public void setCrofAccountCheckingAccounts(List<CrofAccountCheckingAccount> crofAccountCheckingAccounts){
-		this.crofAccountCheckingAccounts=crofAccountCheckingAccounts;
+	public void setCrofAccountSavingsAccounts(List<CrofAccountSavingsAccount> crofAccountSavingsAccounts){
+		this.crofAccountSavingsAccounts=crofAccountSavingsAccounts;
 	}
-	public List<CrofAccountCheckingAccount> getCrofAccountCheckingAccounts(){
-		return crofAccountCheckingAccounts;
+	public List<CrofAccountSavingsAccount> getCrofAccountSavingsAccounts(){
+		return crofAccountSavingsAccounts;
 	}
 	
 	

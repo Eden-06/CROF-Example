@@ -18,16 +18,96 @@ public class Serializer{
 	private CrofModel crofModel=new CrofModel();
 	private Model model;
 
-	public void exchangeAccount(List<Account> accounts){
-		List<CrofAccount> crofAccounts=new ArrayList<CrofAccount>();
-		for(int i=0;i<accounts.size();i++) {
-			CrofAccount crofAccount=new CrofAccount();
-			crofAccount.setBalance(accounts.get(i).getBalance());
-			crofAccount.setId(accounts.get(i).getId());
+	public void exchangePerson(List<Person> persons){
+		List<CrofPerson> crofPersons=new ArrayList<CrofPerson>();
+		for(int i=0;i<persons.size();i++) {
+			CrofPerson crofPerson=new CrofPerson();
+			crofPerson.setTitle(persons.get(i).getTitle());
+			crofPerson.setFirstName(persons.get(i).getFirstName());
+			crofPerson.setLastName(persons.get(i).getLastName());
+			crofPerson.setAddress(persons.get(i).getAddress());
 			
-			crofAccounts.add(crofAccount);
+			crofPersons.add(crofPerson);
 		}
-		crofModel.setCrofAccounts(crofAccounts);
+		crofModel.setCrofPersons(crofPersons);
+	}
+	public void exchangeCompany(List<Company> companys){
+		List<CrofCompany> crofCompanys=new ArrayList<CrofCompany>();
+		for(int i=0;i<companys.size();i++) {
+			CrofCompany crofCompany=new CrofCompany();
+			crofCompany.setName(companys.get(i).getName());
+			crofCompany.setLegalForm(companys.get(i).getLegalForm());
+			crofCompany.setPOBox(companys.get(i).getPOBox());
+			crofCompany.setAddresses(companys.get(i).getAddresses());
+			
+			crofCompanys.add(crofCompany);
+		}
+		crofModel.setCrofCompanys(crofCompanys);
+	}
+	public void exchangeTransaction(List<Transaction> transactions){
+		List<CrofTransaction> crofTransactions=new ArrayList<CrofTransaction>();
+		for(int i=0;i<transactions.size();i++) {
+			CrofTransaction crofTransaction=new CrofTransaction();
+			crofTransaction.setAmount(transactions.get(i).getAmount());
+			crofTransaction.setCreationTime(transactions.get(i).getCreationTime());
+			crofTransactions.add(crofTransaction);
+		}
+		crofModel.setCrofTransactions(crofTransactions);
+	}
+
+	public void exchangeTransaction(Transaction transaction) {
+		CrofTransaction crofTransaction= crofModel.getCrofTransactions().get(model.getIndex(transaction));
+		TransactionImpl transactionImpl=(TransactionImpl)transaction;
+		List<TransactionImpl.AccountTarget> accountTargets=new ArrayList<TransactionImpl.AccountTarget>();
+		for(int i=0;i<transactionImpl.getAccountTargets().size();i++) {
+		TransactionImpl.AccountTarget accountTarget=(TransactionImpl.AccountTarget)transactionImpl.getAccountTargets().get(i);
+		accountTargets.add(accountTarget);
+		CrofTarget crofTarget= new CrofTarget();
+		List<CrofTarget> crofTargets=crofTransaction.getCrofTargets();
+		crofTargets.add(crofTarget);
+		crofTransaction.setCrofTargets(crofTargets);
+		CrofAccountTarget crofAccountTarget=new CrofAccountTarget();
+		int playerPosition=model.getIndex((Account)accountTarget.getPlayer());
+		crofAccountTarget.setPlayer("CrofAccount@"+playerPosition);			
+		int playedPosition=crofTargets.size()-1;
+		crofAccountTarget.setPlayed("CrofTarget@"+playedPosition);
+		
+		crofTransaction.getCrofAccountTargets().add(crofAccountTarget);
+		}
+		List<TransactionImpl.AccountSource> accountSources=new ArrayList<TransactionImpl.AccountSource>();
+		for(int i=0;i<transactionImpl.getAccountSources().size();i++) {
+		TransactionImpl.AccountSource accountSource=(TransactionImpl.AccountSource)transactionImpl.getAccountSources().get(i);
+		accountSources.add(accountSource);
+		CrofSource crofSource= new CrofSource();
+		List<CrofSource> crofSources=crofTransaction.getCrofSources();
+		crofSources.add(crofSource);
+		crofTransaction.setCrofSources(crofSources);
+		CrofAccountSource crofAccountSource=new CrofAccountSource();
+		int playerPosition=model.getIndex((Account)accountSource.getPlayer());
+		crofAccountSource.setPlayer("CrofAccount@"+playerPosition);			
+		int playedPosition=crofSources.size()-1;
+		crofAccountSource.setPlayed("CrofSource@"+playedPosition);
+		
+		crofTransaction.getCrofAccountSources().add(crofAccountSource);
+		}
+		//List<CrofTrans> crofTranss = new ArrayList<CrofTrans>();
+		for(int i=0;i<accountSources.size();i++){
+			TransactionImpl.AccountSource accountSource=(TransactionImpl.AccountSource)accountSources.get(i);
+			List<Transaction.Target> targets=accountSource.getTrans();
+			if(!targets.isEmpty()) {
+				for(int j=0;j<targets.size();j++){
+					Transaction.Target target=targets.get(j);
+					if(target instanceof TransactionImpl.AccountTarget && target.getPlayer().getClass().getName().substring(target.getPlayer().getClass().getName().lastIndexOf(".")+1).equals("AccountImpl")){
+						TransactionImpl.AccountTarget accountTarget=(TransactionImpl.AccountTarget)target;
+						CrofTrans crofTrans=new CrofTrans();
+						crofTrans.setFirst("AccountSource@"+accountSources.indexOf(accountSource));
+						crofTrans.setSecond("AccountTarget@"+accountTargets.indexOf(accountTarget));
+						crofTransaction.getCrofTrans().add(crofTrans);
+					}
+				}
+			}
+		}
+		
 	}
 	public void exchangeBank(List<Bank> banks){
 		List<CrofBank> crofBanks=new ArrayList<CrofBank>();
@@ -59,23 +139,6 @@ public class Serializer{
 		
 		crofBank.getCrofTransactionMoneyTransfers().add(crofTransactionMoneyTransfer);
 		}
-		List<BankImpl.AccountSavingsAccount> accountSavingsAccounts=new ArrayList<BankImpl.AccountSavingsAccount>();
-		for(int i=0;i<bankImpl.getAccountSavingsAccounts().size();i++) {
-		BankImpl.AccountSavingsAccount accountSavingsAccount=(BankImpl.AccountSavingsAccount)bankImpl.getAccountSavingsAccounts().get(i);
-		accountSavingsAccounts.add(accountSavingsAccount);
-		CrofSavingsAccount crofSavingsAccount= new CrofSavingsAccount();
-		crofSavingsAccount.setFee(accountSavingsAccount.getFee());
-		List<CrofSavingsAccount> crofSavingsAccounts=crofBank.getCrofSavingsAccounts();
-		crofSavingsAccounts.add(crofSavingsAccount);
-		crofBank.setCrofSavingsAccounts(crofSavingsAccounts);
-		CrofAccountSavingsAccount crofAccountSavingsAccount=new CrofAccountSavingsAccount();
-		int playerPosition=model.getIndex((Account)accountSavingsAccount.getPlayer());
-		crofAccountSavingsAccount.setPlayer("CrofAccount@"+playerPosition);			
-		int playedPosition=crofSavingsAccounts.size()-1;
-		crofAccountSavingsAccount.setPlayed("CrofSavingsAccount@"+playedPosition);
-		
-		crofBank.getCrofAccountSavingsAccounts().add(crofAccountSavingsAccount);
-		}
 		List<BankImpl.PersonConsultant> personConsultants=new ArrayList<BankImpl.PersonConsultant>();
 		for(int i=0;i<bankImpl.getPersonConsultants().size();i++) {
 		BankImpl.PersonConsultant personConsultant=(BankImpl.PersonConsultant)bankImpl.getPersonConsultants().get(i);
@@ -92,6 +155,23 @@ public class Serializer{
 		crofPersonConsultant.setPlayed("CrofConsultant@"+playedPosition);
 		
 		crofBank.getCrofPersonConsultants().add(crofPersonConsultant);
+		}
+		List<BankImpl.AccountCheckingAccount> accountCheckingAccounts=new ArrayList<BankImpl.AccountCheckingAccount>();
+		for(int i=0;i<bankImpl.getAccountCheckingAccounts().size();i++) {
+		BankImpl.AccountCheckingAccount accountCheckingAccount=(BankImpl.AccountCheckingAccount)bankImpl.getAccountCheckingAccounts().get(i);
+		accountCheckingAccounts.add(accountCheckingAccount);
+		CrofCheckingAccount crofCheckingAccount= new CrofCheckingAccount();
+		crofCheckingAccount.setLimit(accountCheckingAccount.getLimit());
+		List<CrofCheckingAccount> crofCheckingAccounts=crofBank.getCrofCheckingAccounts();
+		crofCheckingAccounts.add(crofCheckingAccount);
+		crofBank.setCrofCheckingAccounts(crofCheckingAccounts);
+		CrofAccountCheckingAccount crofAccountCheckingAccount=new CrofAccountCheckingAccount();
+		int playerPosition=model.getIndex((Account)accountCheckingAccount.getPlayer());
+		crofAccountCheckingAccount.setPlayer("CrofAccount@"+playerPosition);			
+		int playedPosition=crofCheckingAccounts.size()-1;
+		crofAccountCheckingAccount.setPlayed("CrofCheckingAccount@"+playedPosition);
+		
+		crofBank.getCrofAccountCheckingAccounts().add(crofAccountCheckingAccount);
 		}
 		List<BankImpl.PersonCustomer> personCustomers=new ArrayList<BankImpl.PersonCustomer>();
 		for(int i=0;i<bankImpl.getPersonCustomers().size();i++) {
@@ -127,22 +207,22 @@ public class Serializer{
 		
 		crofBank.getCrofCompanyCustomers().add(crofCompanyCustomer);
 		}
-		List<BankImpl.AccountCheckingAccount> accountCheckingAccounts=new ArrayList<BankImpl.AccountCheckingAccount>();
-		for(int i=0;i<bankImpl.getAccountCheckingAccounts().size();i++) {
-		BankImpl.AccountCheckingAccount accountCheckingAccount=(BankImpl.AccountCheckingAccount)bankImpl.getAccountCheckingAccounts().get(i);
-		accountCheckingAccounts.add(accountCheckingAccount);
-		CrofCheckingAccount crofCheckingAccount= new CrofCheckingAccount();
-		crofCheckingAccount.setLimit(accountCheckingAccount.getLimit());
-		List<CrofCheckingAccount> crofCheckingAccounts=crofBank.getCrofCheckingAccounts();
-		crofCheckingAccounts.add(crofCheckingAccount);
-		crofBank.setCrofCheckingAccounts(crofCheckingAccounts);
-		CrofAccountCheckingAccount crofAccountCheckingAccount=new CrofAccountCheckingAccount();
-		int playerPosition=model.getIndex((Account)accountCheckingAccount.getPlayer());
-		crofAccountCheckingAccount.setPlayer("CrofAccount@"+playerPosition);			
-		int playedPosition=crofCheckingAccounts.size()-1;
-		crofAccountCheckingAccount.setPlayed("CrofCheckingAccount@"+playedPosition);
+		List<BankImpl.AccountSavingsAccount> accountSavingsAccounts=new ArrayList<BankImpl.AccountSavingsAccount>();
+		for(int i=0;i<bankImpl.getAccountSavingsAccounts().size();i++) {
+		BankImpl.AccountSavingsAccount accountSavingsAccount=(BankImpl.AccountSavingsAccount)bankImpl.getAccountSavingsAccounts().get(i);
+		accountSavingsAccounts.add(accountSavingsAccount);
+		CrofSavingsAccount crofSavingsAccount= new CrofSavingsAccount();
+		crofSavingsAccount.setFee(accountSavingsAccount.getFee());
+		List<CrofSavingsAccount> crofSavingsAccounts=crofBank.getCrofSavingsAccounts();
+		crofSavingsAccounts.add(crofSavingsAccount);
+		crofBank.setCrofSavingsAccounts(crofSavingsAccounts);
+		CrofAccountSavingsAccount crofAccountSavingsAccount=new CrofAccountSavingsAccount();
+		int playerPosition=model.getIndex((Account)accountSavingsAccount.getPlayer());
+		crofAccountSavingsAccount.setPlayer("CrofAccount@"+playerPosition);			
+		int playedPosition=crofSavingsAccounts.size()-1;
+		crofAccountSavingsAccount.setPlayed("CrofSavingsAccount@"+playedPosition);
 		
-		crofBank.getCrofAccountCheckingAccounts().add(crofAccountCheckingAccount);
+		crofBank.getCrofAccountSavingsAccounts().add(crofAccountSavingsAccount);
 		}
 		//List<CrofOwn_ca> crofOwn_cas = new ArrayList<CrofOwn_ca>();
 		for(int i=0;i<personCustomers.size();i++){
@@ -238,71 +318,6 @@ public class Serializer{
 		}
 		
 	}
-	public void exchangeTransaction(List<Transaction> transactions){
-		List<CrofTransaction> crofTransactions=new ArrayList<CrofTransaction>();
-		for(int i=0;i<transactions.size();i++) {
-			CrofTransaction crofTransaction=new CrofTransaction();
-			crofTransaction.setAmount(transactions.get(i).getAmount());
-			crofTransaction.setCreationTime(transactions.get(i).getCreationTime());
-			crofTransactions.add(crofTransaction);
-		}
-		crofModel.setCrofTransactions(crofTransactions);
-	}
-
-	public void exchangeTransaction(Transaction transaction) {
-		CrofTransaction crofTransaction= crofModel.getCrofTransactions().get(model.getIndex(transaction));
-		TransactionImpl transactionImpl=(TransactionImpl)transaction;
-		List<TransactionImpl.AccountTarget> accountTargets=new ArrayList<TransactionImpl.AccountTarget>();
-		for(int i=0;i<transactionImpl.getAccountTargets().size();i++) {
-		TransactionImpl.AccountTarget accountTarget=(TransactionImpl.AccountTarget)transactionImpl.getAccountTargets().get(i);
-		accountTargets.add(accountTarget);
-		CrofTarget crofTarget= new CrofTarget();
-		List<CrofTarget> crofTargets=crofTransaction.getCrofTargets();
-		crofTargets.add(crofTarget);
-		crofTransaction.setCrofTargets(crofTargets);
-		CrofAccountTarget crofAccountTarget=new CrofAccountTarget();
-		int playerPosition=model.getIndex((Account)accountTarget.getPlayer());
-		crofAccountTarget.setPlayer("CrofAccount@"+playerPosition);			
-		int playedPosition=crofTargets.size()-1;
-		crofAccountTarget.setPlayed("CrofTarget@"+playedPosition);
-		
-		crofTransaction.getCrofAccountTargets().add(crofAccountTarget);
-		}
-		List<TransactionImpl.AccountSource> accountSources=new ArrayList<TransactionImpl.AccountSource>();
-		for(int i=0;i<transactionImpl.getAccountSources().size();i++) {
-		TransactionImpl.AccountSource accountSource=(TransactionImpl.AccountSource)transactionImpl.getAccountSources().get(i);
-		accountSources.add(accountSource);
-		CrofSource crofSource= new CrofSource();
-		List<CrofSource> crofSources=crofTransaction.getCrofSources();
-		crofSources.add(crofSource);
-		crofTransaction.setCrofSources(crofSources);
-		CrofAccountSource crofAccountSource=new CrofAccountSource();
-		int playerPosition=model.getIndex((Account)accountSource.getPlayer());
-		crofAccountSource.setPlayer("CrofAccount@"+playerPosition);			
-		int playedPosition=crofSources.size()-1;
-		crofAccountSource.setPlayed("CrofSource@"+playedPosition);
-		
-		crofTransaction.getCrofAccountSources().add(crofAccountSource);
-		}
-		//List<CrofTrans> crofTranss = new ArrayList<CrofTrans>();
-		for(int i=0;i<accountSources.size();i++){
-			TransactionImpl.AccountSource accountSource=(TransactionImpl.AccountSource)accountSources.get(i);
-			List<Transaction.Target> targets=accountSource.getTrans();
-			if(!targets.isEmpty()) {
-				for(int j=0;j<targets.size();j++){
-					Transaction.Target target=targets.get(j);
-					if(target instanceof TransactionImpl.AccountTarget && target.getPlayer().getClass().getName().substring(target.getPlayer().getClass().getName().lastIndexOf(".")+1).equals("AccountImpl")){
-						TransactionImpl.AccountTarget accountTarget=(TransactionImpl.AccountTarget)target;
-						CrofTrans crofTrans=new CrofTrans();
-						crofTrans.setFirst("AccountSource@"+accountSources.indexOf(accountSource));
-						crofTrans.setSecond("AccountTarget@"+accountTargets.indexOf(accountTarget));
-						crofTransaction.getCrofTrans().add(crofTrans);
-					}
-				}
-			}
-		}
-		
-	}
 	public void exchangeDateTime(List<DateTime> dateTimes){
 		List<CrofDateTime> crofDateTimes=new ArrayList<CrofDateTime>();
 		for(int i=0;i<dateTimes.size();i++) {
@@ -312,47 +327,32 @@ public class Serializer{
 		}
 		crofModel.setCrofDateTimes(crofDateTimes);
 	}	
-	public void exchangePerson(List<Person> persons){
-		List<CrofPerson> crofPersons=new ArrayList<CrofPerson>();
-		for(int i=0;i<persons.size();i++) {
-			CrofPerson crofPerson=new CrofPerson();
-			crofPerson.setTitle(persons.get(i).getTitle());
-			crofPerson.setFirstName(persons.get(i).getFirstName());
-			crofPerson.setLastName(persons.get(i).getLastName());
-			crofPerson.setAddress(persons.get(i).getAddress());
+	public void exchangeAccount(List<Account> accounts){
+		List<CrofAccount> crofAccounts=new ArrayList<CrofAccount>();
+		for(int i=0;i<accounts.size();i++) {
+			CrofAccount crofAccount=new CrofAccount();
+			crofAccount.setBalance(accounts.get(i).getBalance());
+			crofAccount.setId(accounts.get(i).getId());
 			
-			crofPersons.add(crofPerson);
+			crofAccounts.add(crofAccount);
 		}
-		crofModel.setCrofPersons(crofPersons);
-	}
-	public void exchangeCompany(List<Company> companys){
-		List<CrofCompany> crofCompanys=new ArrayList<CrofCompany>();
-		for(int i=0;i<companys.size();i++) {
-			CrofCompany crofCompany=new CrofCompany();
-			crofCompany.setName(companys.get(i).getName());
-			crofCompany.setLegalForm(companys.get(i).getLegalForm());
-			crofCompany.setPOBox(companys.get(i).getPOBox());
-			crofCompany.setAddresses(companys.get(i).getAddresses());
-			
-			crofCompanys.add(crofCompany);
-		}
-		crofModel.setCrofCompanys(crofCompanys);
+		crofModel.setCrofAccounts(crofAccounts);
 	}
 	public void toJson(Model model,String filePath) {
 		this.model=model;
-		exchangeAccount(model.getAccount());
-		List<Bank> banks=model.getBank();
-		exchangeBank(banks);
-		List<Transaction> transactions=model.getTransaction();
-		exchangeTransaction(transactions);
-		exchangeDateTime(model.getDateTime());
 		exchangePerson(model.getPerson());
 		exchangeCompany(model.getCompany());
-		for(int i = 0; i<banks.size(); i++){
-			exchangeBank(banks.get(i));
-		}
+		List<Transaction> transactions=model.getTransaction();
+		exchangeTransaction(transactions);
+		List<Bank> banks=model.getBank();
+		exchangeBank(banks);
+		exchangeDateTime(model.getDateTime());
+		exchangeAccount(model.getAccount());
 		for(int i = 0; i<transactions.size(); i++){
 			exchangeTransaction(transactions.get(i));
+		}
+		for(int i = 0; i<banks.size(); i++){
+			exchangeBank(banks.get(i));
 		}
 		String str = new Gson().toJson(crofModel,CrofModel.class);
 		File file = new File(filePath);
@@ -369,19 +369,19 @@ public class Serializer{
 	}
 	public String toJson(Model model) {
 		this.model=model;
-		exchangeAccount(model.getAccount());
-		List<Bank> banks=model.getBank();
-		exchangeBank(banks);
-		List<Transaction> transactions=model.getTransaction();
-		exchangeTransaction(transactions);
-		exchangeDateTime(model.getDateTime());
 		exchangePerson(model.getPerson());
 		exchangeCompany(model.getCompany());
-		for(int i = 0; i<banks.size(); i++){
-			exchangeBank(banks.get(i));
-		}
+		List<Transaction> transactions=model.getTransaction();
+		exchangeTransaction(transactions);
+		List<Bank> banks=model.getBank();
+		exchangeBank(banks);
+		exchangeDateTime(model.getDateTime());
+		exchangeAccount(model.getAccount());
 		for(int i = 0; i<transactions.size(); i++){
 			exchangeTransaction(transactions.get(i));
+		}
+		for(int i = 0; i<banks.size(); i++){
+			exchangeBank(banks.get(i));
 		}
 		return new Gson().toJson(crofModel,CrofModel.class);		
 	}

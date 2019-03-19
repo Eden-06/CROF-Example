@@ -37,7 +37,7 @@ public class TransactionImpl implements Transaction{
 	}
 	
 	
-	private TransImpl transInstance=new TransImpl();
+	private TransImpl transExtent=new TransImpl();
 	
 		
 	
@@ -98,11 +98,11 @@ public class TransactionImpl implements Transaction{
 		}
 		@Override
 		public List<Source> getTrans(){
-			return transInstance.getSources(this);
+			return transExtent.getSources(this);
 		}
 		@Override
 		public boolean addTrans(Source source){
-			return transInstance.add(source,this);
+			return transExtent.add(source,this);
 		}
 		
 		
@@ -135,11 +135,11 @@ public class TransactionImpl implements Transaction{
 		}
 		@Override
 		public List<Target> getTrans(){
-			return transInstance.getTargets(this);
+			return transExtent.getTargets(this);
 		}
 		@Override
 		public boolean addTrans(Target target){
-			return transInstance.add(this,target);
+			return transExtent.add(this,target);
 		}
 		
 		
