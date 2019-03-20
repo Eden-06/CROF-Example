@@ -65,6 +65,45 @@ public class AccountImpl implements Account{
 	}
 	
 	@Override
+	public boolean hasTransactionTarget(Transaction transaction){
+		for(int i=0;i<state.transactionTargets.size();i++){
+			if(state.transactionTargets.get(i).getOwner().equals(transaction)){
+				return true;
+			}
+		}
+		return false;
+	}
+	@Override
+	public Transaction.Target getTransactionTarget(Transaction transaction){
+		for(int i=0;i<state.transactionTargets.size();i++){
+			if(state.transactionTargets.get(i).getOwner().equals(transaction)){
+				return this.state.transactionTargets.get(i);
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public List<Transaction.Target> getTransactionTargets(){
+		return Collections.unmodifiableList(this.state.transactionTargets);
+	}
+	@Override
+	public boolean addTransactionTarget(Transaction.Target target) {
+		if(state.transactionTargets.contains(target))
+				return false;
+			return this.state.transactionTargets.add(target);
+	}
+	@Override
+	public boolean removeTransactionTarget(Transaction transaction){
+		for(int i=0;i<state.transactionTargets.size();i++) {
+				if(state.transactionTargets.get(i).getOwner().equals(transaction)) {
+					this.state.transactionTargets.remove(i);
+					return true;
+				}
+			}
+			return false;
+	}
+	@Override
 	public boolean hasBankSavingsAccount(Bank bank){
 		for(int i=0;i<state.bankSavingsAccounts.size();i++){
 			if(state.bankSavingsAccounts.get(i).getOwner().equals(bank)){
@@ -176,45 +215,6 @@ public class AccountImpl implements Account{
 		for(int i=0;i<state.transactionSources.size();i++) {
 				if(state.transactionSources.get(i).getOwner().equals(transaction)) {
 					this.state.transactionSources.remove(i);
-					return true;
-				}
-			}
-			return false;
-	}
-	@Override
-	public boolean hasTransactionTarget(Transaction transaction){
-		for(int i=0;i<state.transactionTargets.size();i++){
-			if(state.transactionTargets.get(i).getOwner().equals(transaction)){
-				return true;
-			}
-		}
-		return false;
-	}
-	@Override
-	public Transaction.Target getTransactionTarget(Transaction transaction){
-		for(int i=0;i<state.transactionTargets.size();i++){
-			if(state.transactionTargets.get(i).getOwner().equals(transaction)){
-				return this.state.transactionTargets.get(i);
-			}
-		}
-		return null;
-	}
-	
-	@Override
-	public List<Transaction.Target> getTransactionTargets(){
-		return Collections.unmodifiableList(this.state.transactionTargets);
-	}
-	@Override
-	public boolean addTransactionTarget(Transaction.Target target) {
-		if(state.transactionTargets.contains(target))
-				return false;
-			return this.state.transactionTargets.add(target);
-	}
-	@Override
-	public boolean removeTransactionTarget(Transaction transaction){
-		for(int i=0;i<state.transactionTargets.size();i++) {
-				if(state.transactionTargets.get(i).getOwner().equals(transaction)) {
-					this.state.transactionTargets.remove(i);
 					return true;
 				}
 			}

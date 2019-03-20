@@ -12,44 +12,6 @@ public class ModelImpl implements Model{
 	public String getModelName(){
 		return this.model;
 	}
-	private List<Transaction> transactions=new ArrayList<Transaction>();
-	@Override
-	public void setTransaction(List<Transaction> transactions){
-		this.transactions=transactions;
-	}
-	@Override
-	public List<Transaction> getTransaction(){
-		return this.transactions;
-	}
-	@Override
-	public Transaction createTransaction(){
-		TransactionImpl transaction=new TransactionImpl(this);
-		this.transactions.add(transaction);
-		return transaction;
-	}
-	@Override
-	public int getIndex(Transaction transaction) {
-		return this.transactions.indexOf(transaction);		
-	}
-	private List<Company> companys=new ArrayList<Company>();
-	@Override
-	public void setCompany(List<Company> companys){
-		this.companys=companys;
-	}
-	@Override
-	public List<Company> getCompany(){
-		return this.companys;
-	}
-	@Override
-	public Company createCompany(){
-		CompanyImpl company=new CompanyImpl(this);
-		this.companys.add(company);
-		return company;
-	}
-	@Override
-	public int getIndex(Company company) {
-		return this.companys.indexOf(company);		
-	}
 	private List<DateTime> dateTimes=new ArrayList<DateTime>();
 	@Override
 	public void setDateTime(List<DateTime> dateTimes){
@@ -88,6 +50,25 @@ public class ModelImpl implements Model{
 	public int getIndex(Account account) {
 		return this.accounts.indexOf(account);		
 	}
+	private List<Transaction> transactions=new ArrayList<Transaction>();
+	@Override
+	public void setTransaction(List<Transaction> transactions){
+		this.transactions=transactions;
+	}
+	@Override
+	public List<Transaction> getTransaction(){
+		return this.transactions;
+	}
+	@Override
+	public Transaction createTransaction(){
+		TransactionImpl transaction=new TransactionImpl(this);
+		this.transactions.add(transaction);
+		return transaction;
+	}
+	@Override
+	public int getIndex(Transaction transaction) {
+		return this.transactions.indexOf(transaction);		
+	}
 	private List<Person> persons=new ArrayList<Person>();
 	@Override
 	public void setPerson(List<Person> persons){
@@ -106,6 +87,25 @@ public class ModelImpl implements Model{
 	@Override
 	public int getIndex(Person person) {
 		return this.persons.indexOf(person);		
+	}
+	private List<Company> companys=new ArrayList<Company>();
+	@Override
+	public void setCompany(List<Company> companys){
+		this.companys=companys;
+	}
+	@Override
+	public List<Company> getCompany(){
+		return this.companys;
+	}
+	@Override
+	public Company createCompany(){
+		CompanyImpl company=new CompanyImpl(this);
+		this.companys.add(company);
+		return company;
+	}
+	@Override
+	public int getIndex(Company company) {
+		return this.companys.indexOf(company);		
 	}
 	private List<Bank> banks=new ArrayList<Bank>();
 	@Override

@@ -22,15 +22,6 @@ public class CompanyImpl implements Company{
 	}
 
 	@Override
-	public String getName(){
-		return this.state.name;
-	}
-	
-	@Override
-	public void setName(String name){
-		this.state.name = name;
-	}
-	@Override
 	public String getPOBox(){
 		return this.state.POBox;
 	}
@@ -47,6 +38,15 @@ public class CompanyImpl implements Company{
 	@Override
 	public void setLegalForm(String legalForm){
 		this.state.legalForm = legalForm;
+	}
+	@Override
+	public String getName(){
+		return this.state.name;
+	}
+	
+	@Override
+	public void setName(String name){
+		this.state.name = name;
 	}
 	@Override
 	public String getAddresses(){

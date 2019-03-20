@@ -10,18 +10,6 @@ public interface Transaction{
 	
 	void execute();
 	
-	interface Source{
-		
-		void withdraw(Object amount);
-		
-		Object getPlayer();
-		boolean isSame(Object object);
-		Transaction getOwner();
-		List<Target> getTrans();
-		boolean addTrans(Target target);
-		
-		
-	}
 	interface Target{
 		
 		void deposite(Object amount);
@@ -34,6 +22,18 @@ public interface Transaction{
 		
 		
 	}
+	interface Source{
+		
+		void withdraw(Object amount);
+		
+		Object getPlayer();
+		boolean isSame(Object object);
+		Transaction getOwner();
+		List<Target> getTrans();
+		boolean addTrans(Target target);
+		
+		
+	}
 	
 	interface Trans{
 		boolean add(Source source, Target target);
@@ -43,10 +43,10 @@ public interface Transaction{
 	}
 	
 	
-	Source bindSource(Account account);
-	boolean unbindSource(Account account);
 	Target bindTarget(Account account);
 	boolean unbindTarget(Account account);
+	Source bindSource(Account account);
+	boolean unbindSource(Account account);
 	
 	List<Account> getRole(Account account);
 	

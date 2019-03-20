@@ -30,7 +30,7 @@ public class Main {
 		cu2.addOwn_sa(sa);
 		
 		Account account2=model.createAccount();
-		account1.setId(2);
+		account2.setId(2);
 		account2.setBalance(2500.0);
 		Bank.CheckingAccount ca=bank.bindCheckingAccount(account2);
 		ca.setLimit(500.0);
@@ -58,6 +58,7 @@ public class Main {
 		System.out.println(peter.isSame(peter));
 		System.out.println(peter.isSame(cu2));
 		System.out.println(peter.isSame(klaus));
+
 
 
 		System.out.println(factory.toJson(model));
