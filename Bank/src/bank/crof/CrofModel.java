@@ -9,21 +9,13 @@ public class CrofModel{
 	public String getModelName(){
 		return this.model;
 	}
-	List<CrofPerson> crofPersons=new ArrayList<CrofPerson>();
-	public List<CrofPerson> getCrofPersons() {
-		return crofPersons;
+	List<CrofDateTime> crofDateTimes=new ArrayList<CrofDateTime>();
+	public List<CrofDateTime> getCrofDateTimes() {
+		return crofDateTimes;
 	}
 
-	public void setCrofPersons(List<CrofPerson> crofPersons) {
-		this.crofPersons = crofPersons;
-	}
-	List<CrofCompany> crofCompanys=new ArrayList<CrofCompany>();
-	public List<CrofCompany> getCrofCompanys() {
-		return crofCompanys;
-	}
-
-	public void setCrofCompanys(List<CrofCompany> crofCompanys) {
-		this.crofCompanys = crofCompanys;
+	public void setCrofDateTimes(List<CrofDateTime> crofDateTimes) {
+		this.crofDateTimes = crofDateTimes;
 	}
 	List<CrofTransaction> crofTransactions=new ArrayList<CrofTransaction>();
 	public List<CrofTransaction> getCrofTransactions() {
@@ -33,6 +25,22 @@ public class CrofModel{
 	public void setCrofTransactions(List<CrofTransaction> crofTransactions) {
 		this.crofTransactions = crofTransactions;
 	}
+	List<CrofCompany> crofCompanys=new ArrayList<CrofCompany>();
+	public List<CrofCompany> getCrofCompanys() {
+		return crofCompanys;
+	}
+
+	public void setCrofCompanys(List<CrofCompany> crofCompanys) {
+		this.crofCompanys = crofCompanys;
+	}
+	List<CrofPerson> crofPersons=new ArrayList<CrofPerson>();
+	public List<CrofPerson> getCrofPersons() {
+		return crofPersons;
+	}
+
+	public void setCrofPersons(List<CrofPerson> crofPersons) {
+		this.crofPersons = crofPersons;
+	}
 	List<CrofBank> crofBanks=new ArrayList<CrofBank>();
 	public List<CrofBank> getCrofBanks() {
 		return crofBanks;
@@ -40,14 +48,6 @@ public class CrofModel{
 
 	public void setCrofBanks(List<CrofBank> crofBanks) {
 		this.crofBanks = crofBanks;
-	}
-	List<CrofDateTime> crofDateTimes=new ArrayList<CrofDateTime>();
-	public List<CrofDateTime> getCrofDateTimes() {
-		return crofDateTimes;
-	}
-
-	public void setCrofDateTimes(List<CrofDateTime> crofDateTimes) {
-		this.crofDateTimes = crofDateTimes;
 	}
 	List<CrofAccount> crofAccounts=new ArrayList<CrofAccount>();
 	public List<CrofAccount> getCrofAccounts() {

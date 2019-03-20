@@ -9,9 +9,9 @@ public class AccountState{
 	public double balance;
 	public int id;
 	
-	transient List<Bank.CheckingAccount> bankCheckingAccounts=new ArrayList<Bank.CheckingAccount>();
-	transient List<Transaction.Target> transactionTargets=new ArrayList<Transaction.Target>();
-	transient List<Bank.SavingsAccount> bankSavingsAccounts=new ArrayList<Bank.SavingsAccount>();
 	transient List<Transaction.Source> transactionSources=new ArrayList<Transaction.Source>();
+	transient List<Bank.CheckingAccount> bankCheckingAccounts=new ArrayList<Bank.CheckingAccount>();
+	transient List<Bank.SavingsAccount> bankSavingsAccounts=new ArrayList<Bank.SavingsAccount>();
+	transient List<Transaction.Target> transactionTargets=new ArrayList<Transaction.Target>();
 	public Object compoundObject;
 }

@@ -19,13 +19,45 @@ public class Deserializer{
 	private CrofModel crofModel=new CrofModel();
 	private Model model=Factory.INSTANCE.createModel();
 
-	public void exchangePerson(List<CrofPerson> crofPersons){
-		for(int i=0;i<crofPersons.size();i++) {
-			Person person=model.createPerson();
-			person.setTitle(crofPersons.get(i).getTitle());
-			person.setFirstName(crofPersons.get(i).getFirstName());
-			person.setLastName(crofPersons.get(i).getLastName());
-			person.setAddress(crofPersons.get(i).getAddress());
+	public void exchangeDateTime(List<CrofDateTime> crofDateTimes){
+		for(int i=0;i<crofDateTimes.size();i++) {
+			DateTime dateTime=model.createDateTime();
+			
+		}
+	}
+	public void exchangeTransaction(List<CrofTransaction> crofTransactions){
+		for(int i=0;i<crofTransactions.size();i++) {
+			Transaction transaction=model.createTransaction();
+			transaction.setAmount(crofTransactions.get(i).getAmount());
+			transaction.setCreationTime(crofTransactions.get(i).getCreationTime());
+		}
+	}
+	public void exchangeTransaction(CrofTransaction crofTransaction,int index) {
+		Transaction transaction=((List<Transaction>)model.getTransaction()).get(index);
+		List<CrofAccountSource> crofAccountSources=crofTransaction.getCrofAccountSources();
+		List<TransactionImpl.AccountSource> accountSources=new ArrayList<TransactionImpl.AccountSource>();
+		for(int i=0;i<crofAccountSources.size();i++) {
+			TransactionImpl.AccountSource accountSource=null;
+			CrofAccountSource accountsource=crofAccountSources.get(i);
+			accountSource=(TransactionImpl.AccountSource)transaction.bindSource(model.getAccount().get(accountsource.getPlayerPosition()));
+			
+			accountSources.add(accountSource);
+		}
+		List<CrofAccountTarget> crofAccountTargets=crofTransaction.getCrofAccountTargets();
+		List<TransactionImpl.AccountTarget> accountTargets=new ArrayList<TransactionImpl.AccountTarget>();
+		for(int i=0;i<crofAccountTargets.size();i++) {
+			TransactionImpl.AccountTarget accountTarget=null;
+			CrofAccountTarget accounttarget=crofAccountTargets.get(i);
+			accountTarget=(TransactionImpl.AccountTarget)transaction.bindTarget(model.getAccount().get(accounttarget.getPlayerPosition()));
+			
+			accountTargets.add(accountTarget);
+		}
+		List<CrofTrans> crofTranss = crofTransaction.getCrofTrans();
+		for(int i=0;i<crofTranss.size();i++){
+			CrofTrans crofTrans=crofTranss.get(i);
+			if(crofTrans.getFirst().equals("AccountSource") && crofTrans.getSecond().equals("AccountTarget")){
+				accountSources.get(crofTrans.getFirstPosition()).addTrans(accountTargets.get(crofTrans.getSecondPosition()));
+			}
 			
 		}
 	}
@@ -39,39 +71,13 @@ public class Deserializer{
 			
 		}
 	}
-	public void exchangeTransaction(List<CrofTransaction> crofTransactions){
-		for(int i=0;i<crofTransactions.size();i++) {
-			Transaction transaction=model.createTransaction();
-			transaction.setAmount(crofTransactions.get(i).getAmount());
-			transaction.setCreationTime(crofTransactions.get(i).getCreationTime());
-		}
-	}
-	public void exchangeTransaction(CrofTransaction crofTransaction,int index) {
-		Transaction transaction=((List<Transaction>)model.getTransaction()).get(index);
-		List<CrofAccountTarget> crofAccountTargets=crofTransaction.getCrofAccountTargets();
-		List<TransactionImpl.AccountTarget> accountTargets=new ArrayList<TransactionImpl.AccountTarget>();
-		for(int i=0;i<crofAccountTargets.size();i++) {
-			TransactionImpl.AccountTarget accountTarget=null;
-			CrofAccountTarget accounttarget=crofAccountTargets.get(i);
-			accountTarget=(TransactionImpl.AccountTarget)transaction.bindTarget(model.getAccount().get(accounttarget.getPlayerPosition()));
-			
-			accountTargets.add(accountTarget);
-		}
-		List<CrofAccountSource> crofAccountSources=crofTransaction.getCrofAccountSources();
-		List<TransactionImpl.AccountSource> accountSources=new ArrayList<TransactionImpl.AccountSource>();
-		for(int i=0;i<crofAccountSources.size();i++) {
-			TransactionImpl.AccountSource accountSource=null;
-			CrofAccountSource accountsource=crofAccountSources.get(i);
-			accountSource=(TransactionImpl.AccountSource)transaction.bindSource(model.getAccount().get(accountsource.getPlayerPosition()));
-			
-			accountSources.add(accountSource);
-		}
-		List<CrofTrans> crofTranss = crofTransaction.getCrofTrans();
-		for(int i=0;i<crofTranss.size();i++){
-			CrofTrans crofTrans=crofTranss.get(i);
-			if(crofTrans.getFirst().equals("AccountSource") && crofTrans.getSecond().equals("AccountTarget")){
-				accountSources.get(crofTrans.getFirstPosition()).addTrans(accountTargets.get(crofTrans.getSecondPosition()));
-			}
+	public void exchangePerson(List<CrofPerson> crofPersons){
+		for(int i=0;i<crofPersons.size();i++) {
+			Person person=model.createPerson();
+			person.setTitle(crofPersons.get(i).getTitle());
+			person.setFirstName(crofPersons.get(i).getFirstName());
+			person.setLastName(crofPersons.get(i).getLastName());
+			person.setAddress(crofPersons.get(i).getAddress());
 			
 		}
 	}
@@ -93,6 +99,26 @@ public class Deserializer{
 			transactionMoneyTransfer.setExecution(crofBank.getCrofMoneyTransfers().get(crofTransactionMoneyTransfers.get(i).getPlayedPosition()).getExecution());
 			transactionMoneyTransfers.add(transactionMoneyTransfer);
 		}
+		List<CrofCompanyCustomer> crofCompanyCustomers=crofBank.getCrofCompanyCustomers();
+		List<BankImpl.CompanyCustomer> companyCustomers=new ArrayList<BankImpl.CompanyCustomer>();
+		for(int i=0;i<crofCompanyCustomers.size();i++) {
+			BankImpl.CompanyCustomer companyCustomer=null;
+			CrofCompanyCustomer companycustomer=crofCompanyCustomers.get(i);
+			companyCustomer=(BankImpl.CompanyCustomer)bank.bindCustomer(model.getCompany().get(companycustomer.getPlayerPosition()));
+			
+			companyCustomer.setId(crofBank.getCrofCustomers().get(crofCompanyCustomers.get(i).getPlayedPosition()).getId());
+			companyCustomers.add(companyCustomer);
+		}
+		List<CrofPersonCustomer> crofPersonCustomers=crofBank.getCrofPersonCustomers();
+		List<BankImpl.PersonCustomer> personCustomers=new ArrayList<BankImpl.PersonCustomer>();
+		for(int i=0;i<crofPersonCustomers.size();i++) {
+			BankImpl.PersonCustomer personCustomer=null;
+			CrofPersonCustomer personcustomer=crofPersonCustomers.get(i);
+			personCustomer=(BankImpl.PersonCustomer)bank.bindCustomer(model.getPerson().get(personcustomer.getPlayerPosition()));
+			
+			personCustomer.setId(crofBank.getCrofCustomers().get(crofPersonCustomers.get(i).getPlayedPosition()).getId());
+			personCustomers.add(personCustomer);
+		}
 		List<CrofPersonConsultant> crofPersonConsultants=crofBank.getCrofPersonConsultants();
 		List<BankImpl.PersonConsultant> personConsultants=new ArrayList<BankImpl.PersonConsultant>();
 		for(int i=0;i<crofPersonConsultants.size();i++) {
@@ -113,26 +139,6 @@ public class Deserializer{
 			accountCheckingAccount.setLimit(crofBank.getCrofCheckingAccounts().get(crofAccountCheckingAccounts.get(i).getPlayedPosition()).getLimit());
 			accountCheckingAccounts.add(accountCheckingAccount);
 		}
-		List<CrofPersonCustomer> crofPersonCustomers=crofBank.getCrofPersonCustomers();
-		List<BankImpl.PersonCustomer> personCustomers=new ArrayList<BankImpl.PersonCustomer>();
-		for(int i=0;i<crofPersonCustomers.size();i++) {
-			BankImpl.PersonCustomer personCustomer=null;
-			CrofPersonCustomer personcustomer=crofPersonCustomers.get(i);
-			personCustomer=(BankImpl.PersonCustomer)bank.bindCustomer(model.getPerson().get(personcustomer.getPlayerPosition()));
-			
-			personCustomer.setId(crofBank.getCrofCustomers().get(crofPersonCustomers.get(i).getPlayedPosition()).getId());
-			personCustomers.add(personCustomer);
-		}
-		List<CrofCompanyCustomer> crofCompanyCustomers=crofBank.getCrofCompanyCustomers();
-		List<BankImpl.CompanyCustomer> companyCustomers=new ArrayList<BankImpl.CompanyCustomer>();
-		for(int i=0;i<crofCompanyCustomers.size();i++) {
-			BankImpl.CompanyCustomer companyCustomer=null;
-			CrofCompanyCustomer companycustomer=crofCompanyCustomers.get(i);
-			companyCustomer=(BankImpl.CompanyCustomer)bank.bindCustomer(model.getCompany().get(companycustomer.getPlayerPosition()));
-			
-			companyCustomer.setId(crofBank.getCrofCustomers().get(crofCompanyCustomers.get(i).getPlayedPosition()).getId());
-			companyCustomers.add(companyCustomer);
-		}
 		List<CrofAccountSavingsAccount> crofAccountSavingsAccounts=crofBank.getCrofAccountSavingsAccounts();
 		List<BankImpl.AccountSavingsAccount> accountSavingsAccounts=new ArrayList<BankImpl.AccountSavingsAccount>();
 		for(int i=0;i<crofAccountSavingsAccounts.size();i++) {
@@ -146,40 +152,34 @@ public class Deserializer{
 		List<CrofOwn_ca> crofOwn_cas = crofBank.getCrofOwn_ca();
 		for(int i=0;i<crofOwn_cas.size();i++){
 			CrofOwn_ca crofOwn_ca=crofOwn_cas.get(i);
-			if(crofOwn_ca.getFirst().equals("PersonCustomer") && crofOwn_ca.getSecond().equals("AccountCheckingAccount")){
-				personCustomers.get(crofOwn_ca.getFirstPosition()).addOwn_ca(accountCheckingAccounts.get(crofOwn_ca.getSecondPosition()));
-			}
 			if(crofOwn_ca.getFirst().equals("CompanyCustomer") && crofOwn_ca.getSecond().equals("AccountCheckingAccount")){
 				companyCustomers.get(crofOwn_ca.getFirstPosition()).addOwn_ca(accountCheckingAccounts.get(crofOwn_ca.getSecondPosition()));
+			}
+			if(crofOwn_ca.getFirst().equals("PersonCustomer") && crofOwn_ca.getSecond().equals("AccountCheckingAccount")){
+				personCustomers.get(crofOwn_ca.getFirstPosition()).addOwn_ca(accountCheckingAccounts.get(crofOwn_ca.getSecondPosition()));
 			}
 			
 		}
 		List<CrofAdvises> crofAdvisess = crofBank.getCrofAdvises();
 		for(int i=0;i<crofAdvisess.size();i++){
 			CrofAdvises crofAdvises=crofAdvisess.get(i);
-			if(crofAdvises.getFirst().equals("PersonConsultant") && crofAdvises.getSecond().equals("PersonCustomer")){
-				personConsultants.get(crofAdvises.getFirstPosition()).addAdvises(personCustomers.get(crofAdvises.getSecondPosition()));
-			}
 			if(crofAdvises.getFirst().equals("PersonConsultant") && crofAdvises.getSecond().equals("CompanyCustomer")){
 				personConsultants.get(crofAdvises.getFirstPosition()).addAdvises(companyCustomers.get(crofAdvises.getSecondPosition()));
+			}
+			if(crofAdvises.getFirst().equals("PersonConsultant") && crofAdvises.getSecond().equals("PersonCustomer")){
+				personConsultants.get(crofAdvises.getFirstPosition()).addAdvises(personCustomers.get(crofAdvises.getSecondPosition()));
 			}
 			
 		}
 		List<CrofOwn_sa> crofOwn_sas = crofBank.getCrofOwn_sa();
 		for(int i=0;i<crofOwn_sas.size();i++){
 			CrofOwn_sa crofOwn_sa=crofOwn_sas.get(i);
-			if(crofOwn_sa.getFirst().equals("PersonCustomer") && crofOwn_sa.getSecond().equals("AccountSavingsAccount")){
-				personCustomers.get(crofOwn_sa.getFirstPosition()).addOwn_sa(accountSavingsAccounts.get(crofOwn_sa.getSecondPosition()));
-			}
 			if(crofOwn_sa.getFirst().equals("CompanyCustomer") && crofOwn_sa.getSecond().equals("AccountSavingsAccount")){
 				companyCustomers.get(crofOwn_sa.getFirstPosition()).addOwn_sa(accountSavingsAccounts.get(crofOwn_sa.getSecondPosition()));
 			}
-			
-		}
-	}
-	public void exchangeDateTime(List<CrofDateTime> crofDateTimes){
-		for(int i=0;i<crofDateTimes.size();i++) {
-			DateTime dateTime=model.createDateTime();
+			if(crofOwn_sa.getFirst().equals("PersonCustomer") && crofOwn_sa.getSecond().equals("AccountSavingsAccount")){
+				personCustomers.get(crofOwn_sa.getFirstPosition()).addOwn_sa(accountSavingsAccounts.get(crofOwn_sa.getSecondPosition()));
+			}
 			
 		}
 	}
@@ -220,8 +220,8 @@ public class Deserializer{
 			return null;
 		}
 		exchangeDateTime(crofModel.getCrofDateTimes());
-		exchangePerson(crofModel.getCrofPersons());
 		exchangeCompany(crofModel.getCrofCompanys());
+		exchangePerson(crofModel.getCrofPersons());
 		exchangeAccount(crofModel.getCrofAccounts());
 		List<CrofTransaction> crofTransactions= crofModel.getCrofTransactions();
 		exchangeTransaction(crofTransactions);

@@ -23,14 +23,6 @@ public class CrofTransaction{
 		this.creationTime = creationTime;
 	}
 		
-	List<CrofTarget> crofTargets=new ArrayList<CrofTarget>();
-	
-	public void setCrofTargets(List<CrofTarget> crofTargets){
-		this.crofTargets=crofTargets;
-	}
-	public List<CrofTarget> getCrofTargets(){
-		return crofTargets;
-	}
 	List<CrofSource> crofSources=new ArrayList<CrofSource>();
 	
 	public void setCrofSources(List<CrofSource> crofSources){
@@ -39,15 +31,15 @@ public class CrofTransaction{
 	public List<CrofSource> getCrofSources(){
 		return crofSources;
 	}
-	 
-	List<CrofAccountTarget> crofAccountTargets=new ArrayList<CrofAccountTarget>();
+	List<CrofTarget> crofTargets=new ArrayList<CrofTarget>();
 	
-	public void setCrofAccountTargets(List<CrofAccountTarget> crofAccountTargets){
-		this.crofAccountTargets=crofAccountTargets;
+	public void setCrofTargets(List<CrofTarget> crofTargets){
+		this.crofTargets=crofTargets;
 	}
-	public List<CrofAccountTarget> getCrofAccountTargets(){
-		return crofAccountTargets;
+	public List<CrofTarget> getCrofTargets(){
+		return crofTargets;
 	}
+	 
 	List<CrofAccountSource> crofAccountSources=new ArrayList<CrofAccountSource>();
 	
 	public void setCrofAccountSources(List<CrofAccountSource> crofAccountSources){
@@ -55,6 +47,14 @@ public class CrofTransaction{
 	}
 	public List<CrofAccountSource> getCrofAccountSources(){
 		return crofAccountSources;
+	}
+	List<CrofAccountTarget> crofAccountTargets=new ArrayList<CrofAccountTarget>();
+	
+	public void setCrofAccountTargets(List<CrofAccountTarget> crofAccountTargets){
+		this.crofAccountTargets=crofAccountTargets;
+	}
+	public List<CrofAccountTarget> getCrofAccountTargets(){
+		return crofAccountTargets;
 	}
 	
 	

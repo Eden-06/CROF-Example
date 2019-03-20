@@ -16,6 +16,22 @@ public class BankImpl implements Bank{
 		this.transactionMoneyTransfers = transactionMoneyTransfers;
 	}
 	
+	transient List<Customer> companyCustomers=new ArrayList<Customer>();
+	public List<Customer> getCompanyCustomers() {
+		return companyCustomers;
+	}
+	public void setCompanyCustomers(List<Customer> companyCustomers) {
+		this.companyCustomers = companyCustomers;
+	}
+	
+	transient List<Customer> personCustomers=new ArrayList<Customer>();
+	public List<Customer> getPersonCustomers() {
+		return personCustomers;
+	}
+	public void setPersonCustomers(List<Customer> personCustomers) {
+		this.personCustomers = personCustomers;
+	}
+	
 	transient List<Consultant> personConsultants=new ArrayList<Consultant>();
 	public List<Consultant> getPersonConsultants() {
 		return personConsultants;
@@ -30,22 +46,6 @@ public class BankImpl implements Bank{
 	}
 	public void setAccountCheckingAccounts(List<CheckingAccount> accountCheckingAccounts) {
 		this.accountCheckingAccounts = accountCheckingAccounts;
-	}
-	
-	transient List<Customer> personCustomers=new ArrayList<Customer>();
-	public List<Customer> getPersonCustomers() {
-		return personCustomers;
-	}
-	public void setPersonCustomers(List<Customer> personCustomers) {
-		this.personCustomers = personCustomers;
-	}
-	
-	transient List<Customer> companyCustomers=new ArrayList<Customer>();
-	public List<Customer> getCompanyCustomers() {
-		return companyCustomers;
-	}
-	public void setCompanyCustomers(List<Customer> companyCustomers) {
-		this.companyCustomers = companyCustomers;
 	}
 	
 	transient List<SavingsAccount> accountSavingsAccounts=new ArrayList<SavingsAccount>();
@@ -114,6 +114,136 @@ public class BankImpl implements Bank{
 		public Transaction getPlayer() {
 			return (Transaction)getCompoundObject();
 		}
+		
+	
+	}
+	public class CompanyCustomer extends CompanyImpl implements Customer{
+		private int id;
+		
+	
+		public CompanyCustomer(){
+			super();
+		}
+		public CompanyCustomer(Company company){
+			super();
+			this.state=((CompanyImpl)company).state;
+		}
+		@Override
+		public int getId(){
+			return id;
+		}
+		
+		@Override
+		public void setId(int id){
+			this.id = id;
+		}
+		
+		@Override
+		public String getName(){
+			throw new UnsupportedOperationException("Invalid operation for sorted list.");
+		}
+		
+		
+		@Override
+		public Bank getOwner() {
+			return BankImpl.this;
+		}
+		@Override
+		public Company getPlayer() {
+			return (Company)getCompoundObject();
+		}
+		@Override
+		public List<SavingsAccount> getOwn_sa(){
+			return own_saExtent.getSavingsAccounts(this);
+		}
+		@Override
+		public boolean addOwn_sa(SavingsAccount savingsAccount){
+			return own_saExtent.add(this,savingsAccount);
+		}
+		
+		@Override
+		public List<Consultant> getAdvises(){
+			return advisesExtent.getConsultants(this);
+		}
+		@Override
+		public boolean addAdvises(Consultant consultant){
+			return advisesExtent.add(consultant,this);
+		}
+		
+		@Override
+		public List<CheckingAccount> getOwn_ca(){
+			return own_caExtent.getCheckingAccounts(this);
+		}
+		@Override
+		public boolean addOwn_ca(CheckingAccount checkingAccount){
+			return own_caExtent.add(this,checkingAccount);
+		}
+		
+		
+	
+	}
+	public class PersonCustomer extends PersonImpl implements Customer{
+		private int id;
+		
+	
+		public PersonCustomer(){
+			super();
+		}
+		public PersonCustomer(Person person){
+			super();
+			this.state=((PersonImpl)person).state;
+		}
+		@Override
+		public int getId(){
+			return id;
+		}
+		
+		@Override
+		public void setId(int id){
+			this.id = id;
+		}
+		
+		@Override
+		public String getName(){
+			throw new UnsupportedOperationException("Invalid operation for sorted list.");
+		}
+		
+		
+		@Override
+		public Bank getOwner() {
+			return BankImpl.this;
+		}
+		@Override
+		public Person getPlayer() {
+			return (Person)getCompoundObject();
+		}
+		@Override
+		public List<SavingsAccount> getOwn_sa(){
+			return own_saExtent.getSavingsAccounts(this);
+		}
+		@Override
+		public boolean addOwn_sa(SavingsAccount savingsAccount){
+			return own_saExtent.add(this,savingsAccount);
+		}
+		
+		@Override
+		public List<Consultant> getAdvises(){
+			return advisesExtent.getConsultants(this);
+		}
+		@Override
+		public boolean addAdvises(Consultant consultant){
+			return advisesExtent.add(consultant,this);
+		}
+		
+		@Override
+		public List<CheckingAccount> getOwn_ca(){
+			return own_caExtent.getCheckingAccounts(this);
+		}
+		@Override
+		public boolean addOwn_ca(CheckingAccount checkingAccount){
+			return own_caExtent.add(this,checkingAccount);
+		}
+		
 		
 	
 	}
@@ -202,136 +332,6 @@ public class BankImpl implements Bank{
 		@Override
 		public boolean addOwn_ca(Customer customer){
 			return own_caExtent.add(customer,this);
-		}
-		
-		
-	
-	}
-	public class PersonCustomer extends PersonImpl implements Customer{
-		private int id;
-		
-	
-		public PersonCustomer(){
-			super();
-		}
-		public PersonCustomer(Person person){
-			super();
-			this.state=((PersonImpl)person).state;
-		}
-		@Override
-		public int getId(){
-			return id;
-		}
-		
-		@Override
-		public void setId(int id){
-			this.id = id;
-		}
-		
-		@Override
-		public String getName(){
-			throw new UnsupportedOperationException("Invalid operation for sorted list.");
-		}
-		
-		
-		@Override
-		public Bank getOwner() {
-			return BankImpl.this;
-		}
-		@Override
-		public Person getPlayer() {
-			return (Person)getCompoundObject();
-		}
-		@Override
-		public List<Consultant> getAdvises(){
-			return advisesExtent.getConsultants(this);
-		}
-		@Override
-		public boolean addAdvises(Consultant consultant){
-			return advisesExtent.add(consultant,this);
-		}
-		
-		@Override
-		public List<CheckingAccount> getOwn_ca(){
-			return own_caExtent.getCheckingAccounts(this);
-		}
-		@Override
-		public boolean addOwn_ca(CheckingAccount checkingAccount){
-			return own_caExtent.add(this,checkingAccount);
-		}
-		
-		@Override
-		public List<SavingsAccount> getOwn_sa(){
-			return own_saExtent.getSavingsAccounts(this);
-		}
-		@Override
-		public boolean addOwn_sa(SavingsAccount savingsAccount){
-			return own_saExtent.add(this,savingsAccount);
-		}
-		
-		
-	
-	}
-	public class CompanyCustomer extends CompanyImpl implements Customer{
-		private int id;
-		
-	
-		public CompanyCustomer(){
-			super();
-		}
-		public CompanyCustomer(Company company){
-			super();
-			this.state=((CompanyImpl)company).state;
-		}
-		@Override
-		public int getId(){
-			return id;
-		}
-		
-		@Override
-		public void setId(int id){
-			this.id = id;
-		}
-		
-		@Override
-		public String getName(){
-			throw new UnsupportedOperationException("Invalid operation for sorted list.");
-		}
-		
-		
-		@Override
-		public Bank getOwner() {
-			return BankImpl.this;
-		}
-		@Override
-		public Company getPlayer() {
-			return (Company)getCompoundObject();
-		}
-		@Override
-		public List<Consultant> getAdvises(){
-			return advisesExtent.getConsultants(this);
-		}
-		@Override
-		public boolean addAdvises(Consultant consultant){
-			return advisesExtent.add(consultant,this);
-		}
-		
-		@Override
-		public List<CheckingAccount> getOwn_ca(){
-			return own_caExtent.getCheckingAccounts(this);
-		}
-		@Override
-		public boolean addOwn_ca(CheckingAccount checkingAccount){
-			return own_caExtent.add(this,checkingAccount);
-		}
-		
-		@Override
-		public List<SavingsAccount> getOwn_sa(){
-			return own_saExtent.getSavingsAccounts(this);
-		}
-		@Override
-		public boolean addOwn_sa(SavingsAccount savingsAccount){
-			return own_saExtent.add(this,savingsAccount);
 		}
 		
 		
@@ -431,48 +431,6 @@ public class BankImpl implements Bank{
 		}
 	}
 	
-	public class Own_caImpl implements Own_ca{
-		List<Map.Entry<Customer, CheckingAccount>> own_ca=new ArrayList<Map.Entry<Customer, CheckingAccount>>();
-		
-		@Override
-		public boolean remove(Customer customer, CheckingAccount checkingAccount){
-			for(int i = 0;i<own_ca.size();i++) {
-				Map.Entry<Customer, CheckingAccount> entry=own_ca.get(i);
-				if(entry.getKey().equals(customer)&&entry.getValue().equals(checkingAccount)){
-					own_ca.remove(i);
-					return true;
-				}
-			}
-			return false;
-		}
-		
-		@Override
-		public List<CheckingAccount> getCheckingAccounts(Customer customer){
-			List<CheckingAccount> checkingAccounts=new ArrayList<CheckingAccount>();
-			for(int i = 0;i<own_ca.size();i++) {
-				Map.Entry<Customer, CheckingAccount> entry=own_ca.get(i);
-				if(entry.getKey().equals(customer)){
-					checkingAccounts.add(entry.getValue());
-				}
-			}
-			return checkingAccounts;
-		}
-		@Override
-		public List<Customer> getCustomers(CheckingAccount checkingAccount){
-			List<Customer> customers=new ArrayList<Customer>();
-			for(int i = 0;i<own_ca.size();i++) {
-				Map.Entry<Customer, CheckingAccount> entry=own_ca.get(i);
-				if(entry.getValue().equals(checkingAccount)){
-					customers.add(entry.getKey());
-				}
-			}		
-			return customers;
-		}
-		@Override
-		public boolean add(Customer customer, CheckingAccount checkingAccount){
-			return own_ca.add(new AbstractMap.SimpleEntry<Customer, CheckingAccount>(customer,checkingAccount));
-		}
-	}
 	public class Own_saImpl implements Own_sa{
 		List<Map.Entry<Customer, SavingsAccount>> own_sa=new ArrayList<Map.Entry<Customer, SavingsAccount>>();
 		
@@ -515,6 +473,48 @@ public class BankImpl implements Bank{
 			return own_sa.add(new AbstractMap.SimpleEntry<Customer, SavingsAccount>(customer,savingsAccount));
 		}
 	}
+	public class Own_caImpl implements Own_ca{
+		List<Map.Entry<Customer, CheckingAccount>> own_ca=new ArrayList<Map.Entry<Customer, CheckingAccount>>();
+		
+		@Override
+		public boolean remove(Customer customer, CheckingAccount checkingAccount){
+			for(int i = 0;i<own_ca.size();i++) {
+				Map.Entry<Customer, CheckingAccount> entry=own_ca.get(i);
+				if(entry.getKey().equals(customer)&&entry.getValue().equals(checkingAccount)){
+					own_ca.remove(i);
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		@Override
+		public List<CheckingAccount> getCheckingAccounts(Customer customer){
+			List<CheckingAccount> checkingAccounts=new ArrayList<CheckingAccount>();
+			for(int i = 0;i<own_ca.size();i++) {
+				Map.Entry<Customer, CheckingAccount> entry=own_ca.get(i);
+				if(entry.getKey().equals(customer)){
+					checkingAccounts.add(entry.getValue());
+				}
+			}
+			return checkingAccounts;
+		}
+		@Override
+		public List<Customer> getCustomers(CheckingAccount checkingAccount){
+			List<Customer> customers=new ArrayList<Customer>();
+			for(int i = 0;i<own_ca.size();i++) {
+				Map.Entry<Customer, CheckingAccount> entry=own_ca.get(i);
+				if(entry.getValue().equals(checkingAccount)){
+					customers.add(entry.getKey());
+				}
+			}		
+			return customers;
+		}
+		@Override
+		public boolean add(Customer customer, CheckingAccount checkingAccount){
+			return own_ca.add(new AbstractMap.SimpleEntry<Customer, CheckingAccount>(customer,checkingAccount));
+		}
+	}
 	
 	
 	@Override
@@ -535,6 +535,50 @@ public class BankImpl implements Bank{
 			if (transactionMoneyTransfers.get(i).isSame(transaction)) {
 				transactionMoneyTransfers.remove(i);
 				return transaction.removeBankMoneyTransfer(this);
+			}
+		}
+		return false;
+	}
+	@Override
+	public Customer bindCustomer(Company company){
+		for (int i = 0; i < companyCustomers.size(); i++) {
+			if (companyCustomers.get(i).isSame(company)) {
+				return companyCustomers.get(i);
+			}
+		}
+		CompanyCustomer role = new CompanyCustomer(company);
+		companyCustomers.add(role);
+		((CompanyImpl) company).addBankCustomer(role);
+		return role;
+	}
+	@Override
+	public boolean unbindCustomer(Company company){
+		for (int i = 0; i < companyCustomers.size(); i++) {
+			if (companyCustomers.get(i).isSame(company)) {
+				companyCustomers.remove(i);
+				return company.removeBankCustomer(this);
+			}
+		}
+		return false;
+	}
+	@Override
+	public Customer bindCustomer(Person person){
+		for (int i = 0; i < personCustomers.size(); i++) {
+			if (personCustomers.get(i).isSame(person)) {
+				return personCustomers.get(i);
+			}
+		}
+		PersonCustomer role = new PersonCustomer(person);
+		personCustomers.add(role);
+		((PersonImpl) person).addBankCustomer(role);
+		return role;
+	}
+	@Override
+	public boolean unbindCustomer(Person person){
+		for (int i = 0; i < personCustomers.size(); i++) {
+			if (personCustomers.get(i).isSame(person)) {
+				personCustomers.remove(i);
+				return person.removeBankCustomer(this);
 			}
 		}
 		return false;
@@ -584,50 +628,6 @@ public class BankImpl implements Bank{
 		return false;
 	}
 	@Override
-	public Customer bindCustomer(Person person){
-		for (int i = 0; i < personCustomers.size(); i++) {
-			if (personCustomers.get(i).isSame(person)) {
-				return personCustomers.get(i);
-			}
-		}
-		PersonCustomer role = new PersonCustomer(person);
-		personCustomers.add(role);
-		((PersonImpl) person).addBankCustomer(role);
-		return role;
-	}
-	@Override
-	public boolean unbindCustomer(Person person){
-		for (int i = 0; i < personCustomers.size(); i++) {
-			if (personCustomers.get(i).isSame(person)) {
-				personCustomers.remove(i);
-				return person.removeBankCustomer(this);
-			}
-		}
-		return false;
-	}
-	@Override
-	public Customer bindCustomer(Company company){
-		for (int i = 0; i < companyCustomers.size(); i++) {
-			if (companyCustomers.get(i).isSame(company)) {
-				return companyCustomers.get(i);
-			}
-		}
-		CompanyCustomer role = new CompanyCustomer(company);
-		companyCustomers.add(role);
-		((CompanyImpl) company).addBankCustomer(role);
-		return role;
-	}
-	@Override
-	public boolean unbindCustomer(Company company){
-		for (int i = 0; i < companyCustomers.size(); i++) {
-			if (companyCustomers.get(i).isSame(company)) {
-				companyCustomers.remove(i);
-				return company.removeBankCustomer(this);
-			}
-		}
-		return false;
-	}
-	@Override
 	public SavingsAccount bindSavingsAccount(Account account){
 		for (int i = 0; i < accountSavingsAccounts.size(); i++) {
 			if (accountSavingsAccounts.get(i).isSame(account)) {
@@ -651,19 +651,13 @@ public class BankImpl implements Bank{
 	}
 	
 	@Override
-	public List<Person> getRole(Person person){
-		List<Person> list=new ArrayList<Person>();
-		for (int i = 0; i < personConsultants.size(); i++) {
-			if (personConsultants.get(i).isSame(person)) {
-				list.add((Person)personConsultants.get(i));break;
+	public MoneyTransfer getRole(Transaction transaction){
+		for (int i = 0; i < transactionMoneyTransfers.size(); i++) {
+			if (transactionMoneyTransfers.get(i).isSame(transaction)) {
+				return transactionMoneyTransfers.get(i);
 			}
 		}
-		for (int i = 0; i < personCustomers.size(); i++) {
-			if (personCustomers.get(i).isSame(person)) {
-				list.add((Person)personCustomers.get(i));break;
-			}
-		}
-		return list;
+		return null;
 	}
 	@Override
 	public Customer getRole(Company company){
@@ -675,13 +669,19 @@ public class BankImpl implements Bank{
 		return null;
 	}
 	@Override
-	public MoneyTransfer getRole(Transaction transaction){
-		for (int i = 0; i < transactionMoneyTransfers.size(); i++) {
-			if (transactionMoneyTransfers.get(i).isSame(transaction)) {
-				return transactionMoneyTransfers.get(i);
+	public List<Person> getRole(Person person){
+		List<Person> list=new ArrayList<Person>();
+		for (int i = 0; i < personCustomers.size(); i++) {
+			if (personCustomers.get(i).isSame(person)) {
+				list.add((Person)personCustomers.get(i));break;
 			}
 		}
-		return null;
+		for (int i = 0; i < personConsultants.size(); i++) {
+			if (personConsultants.get(i).isSame(person)) {
+				list.add((Person)personConsultants.get(i));break;
+			}
+		}
+		return list;
 	}
 	@Override
 	public List<Account> getRole(Account account){

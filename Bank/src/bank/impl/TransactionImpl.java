@@ -20,20 +20,20 @@ public class TransactionImpl implements Transaction{
 	}
 
 	
-	transient List<Target> accountTargets=new ArrayList<Target>();
-	public List<Target> getAccountTargets() {
-		return accountTargets;
-	}
-	public void setAccountTargets(List<Target> accountTargets) {
-		this.accountTargets = accountTargets;
-	}
-	
 	transient List<Source> accountSources=new ArrayList<Source>();
 	public List<Source> getAccountSources() {
 		return accountSources;
 	}
 	public void setAccountSources(List<Source> accountSources) {
 		this.accountSources = accountSources;
+	}
+	
+	transient List<Target> accountTargets=new ArrayList<Target>();
+	public List<Target> getAccountTargets() {
+		return accountTargets;
+	}
+	public void setAccountTargets(List<Target> accountTargets) {
+		this.accountTargets = accountTargets;
 	}
 	
 	
@@ -71,43 +71,6 @@ public class TransactionImpl implements Transaction{
 	}
 	
 	
-	public class AccountTarget extends AccountImpl implements Target{
-		
-	
-		public AccountTarget(){
-			super();
-		}
-		public AccountTarget(Account account){
-			super();
-			this.state=((AccountImpl)account).state;
-		}
-		
-		@Override
-		public void deposite(Object amount){
-			throw new UnsupportedOperationException("Invalid operation for sorted list.");
-		}
-		
-		
-		@Override
-		public Transaction getOwner() {
-			return TransactionImpl.this;
-		}
-		@Override
-		public Account getPlayer() {
-			return (Account)getCompoundObject();
-		}
-		@Override
-		public List<Source> getTrans(){
-			return transExtent.getSources(this);
-		}
-		@Override
-		public boolean addTrans(Source source){
-			return transExtent.add(source,this);
-		}
-		
-		
-	
-	}
 	public class AccountSource extends AccountImpl implements Source{
 		
 	
@@ -140,6 +103,43 @@ public class TransactionImpl implements Transaction{
 		@Override
 		public boolean addTrans(Target target){
 			return transExtent.add(this,target);
+		}
+		
+		
+	
+	}
+	public class AccountTarget extends AccountImpl implements Target{
+		
+	
+		public AccountTarget(){
+			super();
+		}
+		public AccountTarget(Account account){
+			super();
+			this.state=((AccountImpl)account).state;
+		}
+		
+		@Override
+		public void deposite(Object amount){
+			throw new UnsupportedOperationException("Invalid operation for sorted list.");
+		}
+		
+		
+		@Override
+		public Transaction getOwner() {
+			return TransactionImpl.this;
+		}
+		@Override
+		public Account getPlayer() {
+			return (Account)getCompoundObject();
+		}
+		@Override
+		public List<Source> getTrans(){
+			return transExtent.getSources(this);
+		}
+		@Override
+		public boolean addTrans(Source source){
+			return transExtent.add(source,this);
 		}
 		
 		
@@ -195,28 +195,6 @@ public class TransactionImpl implements Transaction{
 	
 	
 	@Override
-	public Target bindTarget(Account account){
-		for (int i = 0; i < accountTargets.size(); i++) {
-			if (accountTargets.get(i).isSame(account)) {
-				return accountTargets.get(i);
-			}
-		}
-		AccountTarget role = new AccountTarget(account);
-		accountTargets.add(role);
-		((AccountImpl) account).addTransactionTarget(role);
-		return role;
-	}
-	@Override
-	public boolean unbindTarget(Account account){
-		for (int i = 0; i < accountTargets.size(); i++) {
-			if (accountTargets.get(i).isSame(account)) {
-				accountTargets.remove(i);
-				return account.removeTransactionTarget(this);
-			}
-		}
-		return false;
-	}
-	@Override
 	public Source bindSource(Account account){
 		for (int i = 0; i < accountSources.size(); i++) {
 			if (accountSources.get(i).isSame(account)) {
@@ -238,18 +216,40 @@ public class TransactionImpl implements Transaction{
 		}
 		return false;
 	}
+	@Override
+	public Target bindTarget(Account account){
+		for (int i = 0; i < accountTargets.size(); i++) {
+			if (accountTargets.get(i).isSame(account)) {
+				return accountTargets.get(i);
+			}
+		}
+		AccountTarget role = new AccountTarget(account);
+		accountTargets.add(role);
+		((AccountImpl) account).addTransactionTarget(role);
+		return role;
+	}
+	@Override
+	public boolean unbindTarget(Account account){
+		for (int i = 0; i < accountTargets.size(); i++) {
+			if (accountTargets.get(i).isSame(account)) {
+				accountTargets.remove(i);
+				return account.removeTransactionTarget(this);
+			}
+		}
+		return false;
+	}
 	
 	@Override
 	public List<Account> getRole(Account account){
 		List<Account> list=new ArrayList<Account>();
-		for (int i = 0; i < accountTargets.size(); i++) {
-			if (accountTargets.get(i).isSame(account)) {
-				list.add((Account)accountTargets.get(i));break;
-			}
-		}
 		for (int i = 0; i < accountSources.size(); i++) {
 			if (accountSources.get(i).isSame(account)) {
 				list.add((Account)accountSources.get(i));break;
+			}
+		}
+		for (int i = 0; i < accountTargets.size(); i++) {
+			if (accountTargets.get(i).isSame(account)) {
+				list.add((Account)accountTargets.get(i));break;
 			}
 		}
 		return list;
