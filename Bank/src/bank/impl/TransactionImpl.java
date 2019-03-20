@@ -8,10 +8,18 @@ import java.util.Map;
 import bank.*;
 
 public class TransactionImpl implements Transaction{
-	TransactionState state;
-	public TransactionImpl() {
+	protected TransactionState state;
+	private final Model model;
+
+	public TransactionImpl(Model model) {
 		state=new TransactionState();
 		state.compoundObject=this;
+		this.model=model;
+	}
+
+	@Override
+	public Model getModel(){
+		return this.model;
 	}
 
 	@Override
@@ -73,12 +81,8 @@ public class TransactionImpl implements Transaction{
 	
 	public class AccountSource extends AccountImpl implements Source{
 		
-	
-		public AccountSource(){
-			super();
-		}
 		public AccountSource(Account account){
-			super();
+			super(TransactionImpl.this.getModel());
 			this.state=((AccountImpl)account).state;
 		}
 		
@@ -110,12 +114,8 @@ public class TransactionImpl implements Transaction{
 	}
 	public class AccountTarget extends AccountImpl implements Target{
 		
-	
-		public AccountTarget(){
-			super();
-		}
 		public AccountTarget(Account account){
-			super();
+			super(TransactionImpl.this.getModel());
 			this.state=((AccountImpl)account).state;
 		}
 		

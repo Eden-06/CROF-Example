@@ -58,4 +58,5 @@ public interface Transaction{
 	boolean removeBankMoneyTransfer(Bank bank);
 	
 	Transaction getCompoundObject();
+	Model getModel();
 }

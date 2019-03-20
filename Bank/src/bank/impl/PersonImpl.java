@@ -8,12 +8,28 @@ import bank.*;
 
 public class PersonImpl implements Person{
 	protected PersonState state;
+	private final Model model;
 
-	public PersonImpl() {
+
+	public PersonImpl(Model model) {
 		this.state=new PersonState();
 		this.state.compoundObject=this;
+		this.model=model;
 	}
 
+	private Model getModel(){
+		return this.model;
+	}
+
+	@Override
+	public String getTitle(){
+		return this.state.title;
+	}
+	
+	@Override
+	public void setTitle(String title){
+		this.state.title = title;
+	}
 	@Override
 	public String getAddress(){
 		return this.state.address;
@@ -41,15 +57,6 @@ public class PersonImpl implements Person{
 	public void setLastName(String lastName){
 		this.state.lastName = lastName;
 	}
-	@Override
-	public String getTitle(){
-		return this.state.title;
-	}
-	
-	@Override
-	public void setTitle(String title){
-		this.state.title = title;
-	}
 	
 	
 	
@@ -67,45 +74,6 @@ public class PersonImpl implements Person{
 		return false;
 	}
 	
-	@Override
-	public boolean hasBankCustomer(Bank bank){
-		for(int i=0;i<state.bankCustomers.size();i++){
-			if(state.bankCustomers.get(i).getOwner().equals(bank)){
-				return true;
-			}
-		}
-		return false;
-	}
-	@Override
-	public Bank.Customer getBankCustomer(Bank bank){
-		for(int i=0;i<state.bankCustomers.size();i++){
-			if(state.bankCustomers.get(i).getOwner().equals(bank)){
-				return this.state.bankCustomers.get(i);
-			}
-		}
-		return null;
-	}
-	
-	@Override
-	public List<Bank.Customer> getBankCustomers(){
-		return Collections.unmodifiableList(this.state.bankCustomers);
-	}
-	@Override
-	public boolean addBankCustomer(Bank.Customer customer) {
-		if(state.bankCustomers.contains(customer))
-				return false;
-			return this.state.bankCustomers.add(customer);
-	}
-	@Override
-	public boolean removeBankCustomer(Bank bank){
-		for(int i=0;i<state.bankCustomers.size();i++) {
-				if(state.bankCustomers.get(i).getOwner().equals(bank)) {
-					this.state.bankCustomers.remove(i);
-					return true;
-				}
-			}
-			return false;
-	}
 	@Override
 	public boolean hasBankConsultant(Bank bank){
 		for(int i=0;i<state.bankConsultants.size();i++){
@@ -140,6 +108,45 @@ public class PersonImpl implements Person{
 		for(int i=0;i<state.bankConsultants.size();i++) {
 				if(state.bankConsultants.get(i).getOwner().equals(bank)) {
 					this.state.bankConsultants.remove(i);
+					return true;
+				}
+			}
+			return false;
+	}
+	@Override
+	public boolean hasBankCustomer(Bank bank){
+		for(int i=0;i<state.bankCustomers.size();i++){
+			if(state.bankCustomers.get(i).getOwner().equals(bank)){
+				return true;
+			}
+		}
+		return false;
+	}
+	@Override
+	public Bank.Customer getBankCustomer(Bank bank){
+		for(int i=0;i<state.bankCustomers.size();i++){
+			if(state.bankCustomers.get(i).getOwner().equals(bank)){
+				return this.state.bankCustomers.get(i);
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public List<Bank.Customer> getBankCustomers(){
+		return Collections.unmodifiableList(this.state.bankCustomers);
+	}
+	@Override
+	public boolean addBankCustomer(Bank.Customer customer) {
+		if(state.bankCustomers.contains(customer))
+				return false;
+			return this.state.bankCustomers.add(customer);
+	}
+	@Override
+	public boolean removeBankCustomer(Bank bank){
+		for(int i=0;i<state.bankCustomers.size();i++) {
+				if(state.bankCustomers.get(i).getOwner().equals(bank)) {
+					this.state.bankCustomers.remove(i);
 					return true;
 				}
 			}

@@ -5,10 +5,6 @@ import java.util.List;
 
 public interface Model {
 	String getModelName();
-	void setDateTime(List<DateTime> dateTimes);
-	List<DateTime> getDateTime();
-	DateTime createDateTime();
-	int getIndex(DateTime dateTime);
 	void setTransaction(List<Transaction> transactions);
 	List<Transaction> getTransaction();
 	Transaction createTransaction();
@@ -17,6 +13,14 @@ public interface Model {
 	List<Company> getCompany();
 	Company createCompany();
 	int getIndex(Company company);
+	void setDateTime(List<DateTime> dateTimes);
+	List<DateTime> getDateTime();
+	DateTime createDateTime();
+	int getIndex(DateTime dateTime);
+	void setAccount(List<Account> accounts);
+	List<Account> getAccount();
+	Account createAccount();
+	int getIndex(Account account);
 	void setPerson(List<Person> persons);
 	List<Person> getPerson();
 	Person createPerson();
@@ -25,8 +29,4 @@ public interface Model {
 	List<Bank> getBank();
 	Bank createBank();
 	int getIndex(Bank bank);
-	void setAccount(List<Account> accounts);
-	List<Account> getAccount();
-	Account createAccount();
-	int getIndex(Account account);
 }

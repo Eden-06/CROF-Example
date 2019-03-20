@@ -60,8 +60,6 @@ public class Main {
 		System.out.println(peter.isSame(klaus));
 
 
-
-
 		System.out.println(factory.toJson(model));
 		factory.storeJson(model,"./instance/model.croj");
 		

@@ -23,21 +23,13 @@ public class CrofBank{
 	public List<CrofMoneyTransfer> getCrofMoneyTransfers(){
 		return crofMoneyTransfers;
 	}
-	List<CrofCustomer> crofCustomers=new ArrayList<CrofCustomer>();
+	List<CrofSavingsAccount> crofSavingsAccounts=new ArrayList<CrofSavingsAccount>();
 	
-	public void setCrofCustomers(List<CrofCustomer> crofCustomers){
-		this.crofCustomers=crofCustomers;
+	public void setCrofSavingsAccounts(List<CrofSavingsAccount> crofSavingsAccounts){
+		this.crofSavingsAccounts=crofSavingsAccounts;
 	}
-	public List<CrofCustomer> getCrofCustomers(){
-		return crofCustomers;
-	}
-	List<CrofConsultant> crofConsultants=new ArrayList<CrofConsultant>();
-	
-	public void setCrofConsultants(List<CrofConsultant> crofConsultants){
-		this.crofConsultants=crofConsultants;
-	}
-	public List<CrofConsultant> getCrofConsultants(){
-		return crofConsultants;
+	public List<CrofSavingsAccount> getCrofSavingsAccounts(){
+		return crofSavingsAccounts;
 	}
 	List<CrofCheckingAccount> crofCheckingAccounts=new ArrayList<CrofCheckingAccount>();
 	
@@ -47,13 +39,21 @@ public class CrofBank{
 	public List<CrofCheckingAccount> getCrofCheckingAccounts(){
 		return crofCheckingAccounts;
 	}
-	List<CrofSavingsAccount> crofSavingsAccounts=new ArrayList<CrofSavingsAccount>();
+	List<CrofConsultant> crofConsultants=new ArrayList<CrofConsultant>();
 	
-	public void setCrofSavingsAccounts(List<CrofSavingsAccount> crofSavingsAccounts){
-		this.crofSavingsAccounts=crofSavingsAccounts;
+	public void setCrofConsultants(List<CrofConsultant> crofConsultants){
+		this.crofConsultants=crofConsultants;
 	}
-	public List<CrofSavingsAccount> getCrofSavingsAccounts(){
-		return crofSavingsAccounts;
+	public List<CrofConsultant> getCrofConsultants(){
+		return crofConsultants;
+	}
+	List<CrofCustomer> crofCustomers=new ArrayList<CrofCustomer>();
+	
+	public void setCrofCustomers(List<CrofCustomer> crofCustomers){
+		this.crofCustomers=crofCustomers;
+	}
+	public List<CrofCustomer> getCrofCustomers(){
+		return crofCustomers;
 	}
 	 
 	List<CrofTransactionMoneyTransfer> crofTransactionMoneyTransfers=new ArrayList<CrofTransactionMoneyTransfer>();
@@ -63,6 +63,30 @@ public class CrofBank{
 	}
 	public List<CrofTransactionMoneyTransfer> getCrofTransactionMoneyTransfers(){
 		return crofTransactionMoneyTransfers;
+	}
+	List<CrofAccountSavingsAccount> crofAccountSavingsAccounts=new ArrayList<CrofAccountSavingsAccount>();
+	
+	public void setCrofAccountSavingsAccounts(List<CrofAccountSavingsAccount> crofAccountSavingsAccounts){
+		this.crofAccountSavingsAccounts=crofAccountSavingsAccounts;
+	}
+	public List<CrofAccountSavingsAccount> getCrofAccountSavingsAccounts(){
+		return crofAccountSavingsAccounts;
+	}
+	List<CrofAccountCheckingAccount> crofAccountCheckingAccounts=new ArrayList<CrofAccountCheckingAccount>();
+	
+	public void setCrofAccountCheckingAccounts(List<CrofAccountCheckingAccount> crofAccountCheckingAccounts){
+		this.crofAccountCheckingAccounts=crofAccountCheckingAccounts;
+	}
+	public List<CrofAccountCheckingAccount> getCrofAccountCheckingAccounts(){
+		return crofAccountCheckingAccounts;
+	}
+	List<CrofPersonConsultant> crofPersonConsultants=new ArrayList<CrofPersonConsultant>();
+	
+	public void setCrofPersonConsultants(List<CrofPersonConsultant> crofPersonConsultants){
+		this.crofPersonConsultants=crofPersonConsultants;
+	}
+	public List<CrofPersonConsultant> getCrofPersonConsultants(){
+		return crofPersonConsultants;
 	}
 	List<CrofCompanyCustomer> crofCompanyCustomers=new ArrayList<CrofCompanyCustomer>();
 	
@@ -79,30 +103,6 @@ public class CrofBank{
 	}
 	public List<CrofPersonCustomer> getCrofPersonCustomers(){
 		return crofPersonCustomers;
-	}
-	List<CrofPersonConsultant> crofPersonConsultants=new ArrayList<CrofPersonConsultant>();
-	
-	public void setCrofPersonConsultants(List<CrofPersonConsultant> crofPersonConsultants){
-		this.crofPersonConsultants=crofPersonConsultants;
-	}
-	public List<CrofPersonConsultant> getCrofPersonConsultants(){
-		return crofPersonConsultants;
-	}
-	List<CrofAccountCheckingAccount> crofAccountCheckingAccounts=new ArrayList<CrofAccountCheckingAccount>();
-	
-	public void setCrofAccountCheckingAccounts(List<CrofAccountCheckingAccount> crofAccountCheckingAccounts){
-		this.crofAccountCheckingAccounts=crofAccountCheckingAccounts;
-	}
-	public List<CrofAccountCheckingAccount> getCrofAccountCheckingAccounts(){
-		return crofAccountCheckingAccounts;
-	}
-	List<CrofAccountSavingsAccount> crofAccountSavingsAccounts=new ArrayList<CrofAccountSavingsAccount>();
-	
-	public void setCrofAccountSavingsAccounts(List<CrofAccountSavingsAccount> crofAccountSavingsAccounts){
-		this.crofAccountSavingsAccounts=crofAccountSavingsAccounts;
-	}
-	public List<CrofAccountSavingsAccount> getCrofAccountSavingsAccounts(){
-		return crofAccountSavingsAccounts;
 	}
 	
 	

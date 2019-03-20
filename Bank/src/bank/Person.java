@@ -15,16 +15,16 @@ public interface Person{
 	void setAddress(String address);
 	
 	
-	boolean hasBankCustomer(Bank bank);
-	Bank.Customer getBankCustomer(Bank bank);
-	List<Bank.Customer> getBankCustomers();
-	boolean addBankCustomer(Bank.Customer customer);
-	boolean removeBankCustomer(Bank bank);
 	boolean hasBankConsultant(Bank bank);
 	Bank.Consultant getBankConsultant(Bank bank);
 	List<Bank.Consultant> getBankConsultants();
 	boolean addBankConsultant(Bank.Consultant consultant);
 	boolean removeBankConsultant(Bank bank);
+	boolean hasBankCustomer(Bank bank);
+	Bank.Customer getBankCustomer(Bank bank);
+	List<Bank.Customer> getBankCustomers();
+	boolean addBankCustomer(Bank.Customer customer);
+	boolean removeBankCustomer(Bank bank);
 	
 	Person getCompoundObject();
 	boolean isSame(Object object);

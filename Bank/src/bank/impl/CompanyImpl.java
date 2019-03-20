@@ -8,21 +8,19 @@ import bank.*;
 
 public class CompanyImpl implements Company{
 	protected CompanyState state;
+	private final Model model;
 
-	public CompanyImpl() {
+
+	public CompanyImpl(Model model) {
 		this.state=new CompanyState();
 		this.state.compoundObject=this;
+		this.model=model;
 	}
 
-	@Override
-	public String getAddresses(){
-		return this.state.addresses;
+	private Model getModel(){
+		return this.model;
 	}
-	
-	@Override
-	public void setAddresses(String addresses){
-		this.state.addresses = addresses;
-	}
+
 	@Override
 	public String getName(){
 		return this.state.name;
@@ -31,6 +29,15 @@ public class CompanyImpl implements Company{
 	@Override
 	public void setName(String name){
 		this.state.name = name;
+	}
+	@Override
+	public String getPOBox(){
+		return this.state.POBox;
+	}
+	
+	@Override
+	public void setPOBox(String POBox){
+		this.state.POBox = POBox;
 	}
 	@Override
 	public String getLegalForm(){
@@ -42,13 +49,13 @@ public class CompanyImpl implements Company{
 		this.state.legalForm = legalForm;
 	}
 	@Override
-	public String getPOBox(){
-		return this.state.POBox;
+	public String getAddresses(){
+		return this.state.addresses;
 	}
 	
 	@Override
-	public void setPOBox(String POBox){
-		this.state.POBox = POBox;
+	public void setAddresses(String addresses){
+		this.state.addresses = addresses;
 	}
 	
 	

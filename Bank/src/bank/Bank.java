@@ -18,36 +18,17 @@ public interface Bank{
 		Bank getOwner();
 		
 	}
-	interface Customer{
-		int getId();
-		void setId(int id);
+	interface SavingsAccount{
+		double getFee();
+		void setFee(double fee);
 		
-		String getName();
-		
-		Object getPlayer();
-		boolean isSame(Object object);
-		Bank getOwner();
-		List<SavingsAccount> getOwn_sa();
-		boolean addOwn_sa(SavingsAccount savingsAccount);
-		
-		List<Consultant> getAdvises();
-		boolean addAdvises(Consultant consultant);
-		
-		List<CheckingAccount> getOwn_ca();
-		boolean addOwn_ca(CheckingAccount checkingAccount);
-		
-		
-	}
-	interface Consultant{
-		String getPhone();
-		void setPhone(String phone);
-		
+		void decrease(double amount);
 		
 		Object getPlayer();
 		boolean isSame(Object object);
 		Bank getOwner();
-		List<Customer> getAdvises();
-		boolean addAdvises(Customer customer);
+		List<Customer> getOwn_sa();
+		boolean addOwn_sa(Customer customer);
 		
 		
 	}
@@ -65,17 +46,36 @@ public interface Bank{
 		
 		
 	}
-	interface SavingsAccount{
-		double getFee();
-		void setFee(double fee);
+	interface Consultant{
+		String getPhone();
+		void setPhone(String phone);
 		
-		void decrease(double amount);
 		
 		Object getPlayer();
 		boolean isSame(Object object);
 		Bank getOwner();
-		List<Customer> getOwn_sa();
-		boolean addOwn_sa(Customer customer);
+		List<Customer> getAdvises();
+		boolean addAdvises(Customer customer);
+		
+		
+	}
+	interface Customer{
+		int getId();
+		void setId(int id);
+		
+		String getName();
+		
+		Object getPlayer();
+		boolean isSame(Object object);
+		Bank getOwner();
+		List<SavingsAccount> getOwn_sa();
+		boolean addOwn_sa(SavingsAccount savingsAccount);
+		
+		List<CheckingAccount> getOwn_ca();
+		boolean addOwn_ca(CheckingAccount checkingAccount);
+		
+		List<Consultant> getAdvises();
+		boolean addAdvises(Consultant consultant);
 		
 		
 	}
@@ -102,20 +102,21 @@ public interface Bank{
 	
 	MoneyTransfer bindMoneyTransfer(Transaction transaction);
 	boolean unbindMoneyTransfer(Transaction transaction);
+	SavingsAccount bindSavingsAccount(Account account);
+	boolean unbindSavingsAccount(Account account);
+	CheckingAccount bindCheckingAccount(Account account);
+	boolean unbindCheckingAccount(Account account);
+	Consultant bindConsultant(Person person);
+	boolean unbindConsultant(Person person);
 	Customer bindCustomer(Company company);
 	boolean unbindCustomer(Company company);
 	Customer bindCustomer(Person person);
 	boolean unbindCustomer(Person person);
-	Consultant bindConsultant(Person person);
-	boolean unbindConsultant(Person person);
-	CheckingAccount bindCheckingAccount(Account account);
-	boolean unbindCheckingAccount(Account account);
-	SavingsAccount bindSavingsAccount(Account account);
-	boolean unbindSavingsAccount(Account account);
 	
 	MoneyTransfer getRole(Transaction transaction);
 	Customer getRole(Company company);
-	List<Person> getRole(Person person);
 	List<Account> getRole(Account account);
+	List<Person> getRole(Person person);
 	
+	Model getModel();
 }
